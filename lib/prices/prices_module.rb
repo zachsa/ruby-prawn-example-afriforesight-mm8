@@ -3,10 +3,9 @@ module PricesModule
 	
 	def make_bold(prices)
 		prices.clone.each do |comm, p|
-			
-			puts p
-			#name = "<font size='8.5'>#{arr[0]}</font>"
-			#prices[comm] = "<b>#{name} #{arr[1]}</b>"
+			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
+			name = "#{arr[0]}"
+			prices[comm] = "#{name} #{arr[1]}"
 		end
 		
 		prices

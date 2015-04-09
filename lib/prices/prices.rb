@@ -91,7 +91,7 @@ class Prices
 		gold = "GOLD Today’s afternoon price in Asia: $#{prices[:gold][:new]}/oz #{prices[:gold][:trend]} from #{mon_old[:day]} morning #{mon_old[:num_month]}"
 		platinum = "PLATINUM Today’s afternoon price in Asia: $#{prices[:platinum][:new]}/oz #{prices[:platinum][:trend]} from #{mon_old[:day]} morning #{mon_old[:num_month]}"
 		palladium = "PALLADIUM Today’s afternoon price in Asia: $#{prices[:palladium][:new].to_f.round(0)}/oz #{prices[:palladium][:trend]} from #{mon_old[:day]} morning #{mon_old[:num_month]}"
-		diamonds = "DIAMONDS overall polished price index #{fri_new[:full]} close: #{PricesModule::check_rounding(prices[:diamonds][:new].to_f.round(0))} #{prices[:diamonds][:trend]} from #{fri_old[:full]} close"
+		diamonds = "DIAMONDS Overall polished price index #{fri_new[:full]} close: #{PricesModule::check_rounding(prices[:diamonds][:new].to_f.round(0))} #{prices[:diamonds][:trend]} from #{fri_old[:full]} close"
 
 
 
