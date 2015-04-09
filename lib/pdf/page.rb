@@ -109,31 +109,32 @@ def draw_price_point(col, pdf, prices, comm)
 	end
 	
 			
-	pdf.bounding_box([x, pdf.cursor], :width => 250, :height => 12) do
+	pdf.bounding_box([x-1, pdf.cursor], :width => 287, :height => 13) do
 		pdf.stroke_color "894131"
 		pdf.stroke do
 			pdf.fill_color "894131"
-			pdf.fill_and_stroke_rounded_rectangle [pdf.cursor - 12,pdf.cursor], 288, 12, 0
+			pdf.fill_and_stroke_rounded_rectangle [pdf.cursor - 12,pdf.cursor], 287, 13, 0
 			pdf.fill_color 'FFFFFF'
 		end
 		
-		pdf.pad(4) do
-			pdf.draw_text(prices[comm], :at => [4, pdf.cursor - 4], :size => 7, :inline_format => true, :style => :bold_italic)
-		end
+		#pdf.pad(4) do
+		#	pdf.draw_text(prices[comm], :at => [4, pdf.cursor - 4], :size => 7, :inline_format => true, :style => :bold_italic)
+		#end
+		pdf.move_down 2.5
+		pdf.text(prices[comm], size: 6.9, :indent_paragraphs => 4, :inline_format => true)
 		pdf.fill_color '000000'
+		
+		
+		#if comm == :iron_ore
+		#	pdf.fill_color '894131'
+		#	pdf.fill_rectangle [146.5, 12], 8, 11 
+		#	pdf.fill_color '000000'
+		#	pdf.fill_polygon [147, 10], [152, 6], [157, 2]
+		#	pdf.fill_color '000000'
+		#end
+		
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -166,7 +167,7 @@ end
 
 
 
-def draw_pdf(commodity_news, prices)
+def draw_pdf(commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
 	#Initialize variables
 	general_stories = commodity_news[:general_stories]
 	iron_ore_stories = commodity_news[:iron_ore]
@@ -174,7 +175,7 @@ def draw_pdf(commodity_news, prices)
 	chrome_ore_stories = commodity_news[:chrome_ore]
 	gold_stories = commodity_news[:gold]
 	pgm_stories = commodity_news[:pgm]
-	diamonds_stories = commodity_news[:pgm]
+	diamonds_stories = commodity_news[:diamonds]
 	copper_stories = commodity_news[:copper]
 	aluminium_stories = commodity_news[:aluminium]
 	nickel_stories = commodity_news[:nickel]
@@ -187,7 +188,7 @@ def draw_pdf(commodity_news, prices)
 		content.push arr
 	end
 	
-	general_stories_font_size = calculate_font_size("general", general_stories, 130)
+	#general_stories_font_size = calculate_font_size("general", general_stories, 130)
 	general_stories_format = {:size => general_stories_font_size, :align => :justify, :inline_format => true}
 	
 	content_space = (620*2) - 270
@@ -196,13 +197,13 @@ def draw_pdf(commodity_news, prices)
 	#after_price_break = 12 x 2pts
 	#section_break = 11 x 6pts
 	
-	stories_font_size = 7.42#calculate_font_size("main", content, content_space)
+	stories_font_size = content_font_size
 	
 	
 	#Formats
 	stories_format = {:size => stories_font_size, :align => :justify, :inline_format => true}
-	main_content_heading = {:size => 9}
-	sub_content_heading = {:size => 8}
+	main_content_heading = {:size => 9, :indent_paragraphs => 4}
+	sub_content_heading = {:size => 8, :indent_paragraphs => 4}
 	main_heading_break = 2
 	section_break = 6
 	after_price_break = 2
@@ -221,21 +222,36 @@ def draw_pdf(commodity_news, prices)
 			:italic => "#{BASEDIR}/lib/fonts/Arial Narrow Italic.ttf",
 			:bold_italic => "#{BASEDIR}/lib/fonts/Arial Narrow Bold Italic.ttf"
 		})
+		
+		pdf.font_families.update("symbols" => {
+			:normal => "#{BASEDIR}/lib/fonts/Typotheticals - Rhomus Omnilots.ttf",
+			:bold => "#{BASEDIR}/lib/fonts/Typotheticals - Rhomus Omnilots.ttf",
+			:italic => "#{BASEDIR}/lib/fonts/Typotheticals - Rhomus Omnilots.ttf",
+			:bold_italic => "#{BASEDIR}/lib/fonts/Typotheticals - Rhomus Omnilots.ttf"
+
+		})
 		#Selects the custom font
 		pdf.font('Arial Narrow')
+		
+
 	
 	
 		########## Header ##########
+		
+		
 	
-		pdf.draw_text("MONDAY MORNING MINING @ 8", :at => [0, 822], :size => 12)
+		pdf.draw_text("MONDAY MORNING MINING @ 8", :at => [0, 819], :size => 13, :style => :bold)
 		pdf.draw_text('This page updates you quickly on key developments relating to mining and extraction over the last week and this Monday afternoon in Asia', :at => [0, 809], size: 8)
-		pdf.draw_text('7 DAY PERIOD OF 02 - 09 FEBRUARY 2015', :at => [200, 822], :size => 8)
-		pdf.draw_text('GLOBAL ECONOMIC DEVELOPMENT', :at => [0, 793], :size => 9)
-		pdf.draw_text('GENERAL MINING STORIES', :at => [general_left, 793], :size => 9)
+		pdf.draw_text(date_period, :at => [172, 819], :size => 8, :style => :bold)
+		
+		
+		pdf.fill_color '894131'
+		pdf.draw_text('GLOBAL ECONOMIC DEVELOPMENT', :at => [0, 793], :size => 10)
+		pdf.draw_text('GENERAL MINING STORIES', :at => [general_left, 793], :size => 10)
 		pdf.image "#{BASEDIR}/lib/images/logo.png", :at => [510, 832], :width => 70
 	
 		pdf.stroke do
-			pdf.horizontal_line 0, (pdf.bounds.right/2 - 20), :at => 790
+			pdf.horizontal_line 0, (pdf.bounds.right/2 - 3), :at => 790
 			pdf.horizontal_line general_left, general_right, :at => 790
 			pdf.line_width = 0.05
 		end
@@ -265,7 +281,7 @@ def draw_pdf(commodity_news, prices)
 		end
 		
 		
-		
+		pdf.fill_color '000000'
 		
 		########## MAIN CONTENT ##########
 		
@@ -432,7 +448,7 @@ def draw_pdf(commodity_news, prices)
 
 			
 			#Nickel			
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, diamonds_stories, :nickel)
+			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, nickel_stories, :nickel)
 			
 			if pdf.cursor < 20
 				pdf.move_down 20
@@ -449,7 +465,7 @@ def draw_pdf(commodity_news, prices)
 					
 			
 			#Coal			
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, diamonds_stories, :coal)
+			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, coal_stories, :coal)
 			position['11'] = pdf.cursor
 			col = 2 if position['11'] - position['10'] > 0
 			

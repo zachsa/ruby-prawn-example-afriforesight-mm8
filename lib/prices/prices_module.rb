@@ -1,11 +1,26 @@
 module PricesModule
 	extend self
 	
-	def make_bold(prices)
+	def format_for_pdf(prices)
 		prices.clone.each do |comm, p|
+			arr = p.split " "
+			
+			for i in 0...arr.length do
+				wrd = arr[i]
+				if wrd == "SIDE"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='FFFFFF'> : </color></font>"
+				elsif wrd == "DOWN"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='FFFFFF'> = </color></font>"
+				elsif wrd == "UP"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='FFFFFF'> &lt; </color></font>"
+				end
+			end
+			p = arr.join " "
+			
+			
 			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
-			name = "#{arr[0]}"
-			prices[comm] = "#{name} #{arr[1]}"
+			name = "<font size='8'><i>#{arr[0]}</i></font>"
+			prices[comm] = "<b>#{name} #{arr[1]}</b>"
 		end
 		
 		prices
@@ -140,40 +155,41 @@ module PricesModule
 		chrome[:old] = file.cell('C', 12)
 		prices[:chrome] = chrome
 
+		copper = {}
+		copper[:new] = file.cell('G', 13)
+		copper[:old] = file.cell('D', 13)
+		prices[:copper] = copper
+		
+		aluminium = {}
+		aluminium[:new] = file.cell('G', 14)
+		aluminium[:old] = file.cell('D', 14)
+		prices[:aluminium] = aluminium
+		
+		nickel = {}
+		nickel[:new] = file.cell('G', 16)
+		nickel[:old] = file.cell('D', 16)
+		prices[:nickel] = nickel
+		
 		gold = {}
-		gold[:new] = file.cell('G', 13)
-		gold[:old] = file.cell('D', 13)
+		gold[:new] = file.cell('G', 17)
+		gold[:old] = file.cell('D', 17)
 		prices[:gold] = gold
 
 		platinum = {}
-		platinum[:new] = file.cell('G', 14)
-		platinum[:old] = file.cell('D', 14)
+		platinum[:new] = file.cell('G', 18)
+		platinum[:old] = file.cell('D', 18)
 		prices[:platinum] = platinum
 
 		palladium = {}
-		palladium[:new] = file.cell('G', 15)
-		palladium[:old] = file.cell('D', 15)
+		palladium[:new] = file.cell('G', 19)
+		palladium[:old] = file.cell('D', 19)
 		prices[:palladium] = palladium
-
+		
 		diamonds = {}
-		diamonds[:new] = file.cell('E', 16)
-		diamonds[:old] = file.cell('C', 16)
+		diamonds[:new] = file.cell('E', 20)
+		diamonds[:old] = file.cell('C', 20)
 		prices[:diamonds] = diamonds
 
-		copper = {}
-		copper[:new] = file.cell('G', 17)
-		copper[:old] = file.cell('D', 17)
-		prices[:copper] = copper
-
-		aluminium = {}
-		aluminium[:new] = file.cell('G', 18)
-		aluminium[:old] = file.cell('D', 18)
-		prices[:aluminium] = aluminium
-
-		nickel = {}
-		nickel[:new] = file.cell('G', 20)
-		nickel[:old] = file.cell('D', 20)
-		prices[:nickel] = nickel
 
 		coal = {}
 		coal[:new] = file.cell('E', 21)

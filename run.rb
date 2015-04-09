@@ -17,13 +17,18 @@ commodity_news = mm8_stories.content
 prices_xlsx = find_excel_file
 prices = Prices.new prices_xlsx
 prices = prices.price_points
-prices = PricesModule::make_bold(prices)
+prices = PricesModule::format_for_pdf(prices)
+
+
+
+date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
+
+world_growth_font_size = 0
+general_stories_font_size = 7.8
+content_font_size = 7.9
 
 
 
 
-
-
-
-draw_pdf(commodity_news, prices)
+draw_pdf(commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
 

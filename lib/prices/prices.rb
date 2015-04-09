@@ -4,7 +4,7 @@ require 'roo'
 require_relative 'prices_module.rb'
 
 class Prices
-	attr_accessor :price_points
+	attr_accessor :price_points, :mon_new
 		
 	def initialize(filename)
 		
@@ -19,6 +19,8 @@ class Prices
 		mon_old = Date.strptime(file.cell('D', 1))
 		mon_new = PricesModule::convert_date(mon_new)
 		mon_old = PricesModule::convert_date(mon_old)
+		
+		@mon_new = mon_new
 
 		fri_new = Date.strptime(file.cell('E', 1))
 		fri_old = Date.strptime(file.cell('C', 1))
