@@ -20,23 +20,57 @@ puts "..Parsed stories successfully"
 
 prices_xlsx = find_excel_file
 prices = Prices.new prices_xlsx
+
 prices = prices.price_points
+#prices = prices.price_points_manual
+
 prices = PricesModule::format_for_pdf(prices)
 puts "..Prices loaded successfully"
 
 
 
+
+
+
+
+
+
+
+
+world_growth = "Stock markets were generally down last week on fears of the US Fed lifting interest rates soon, but turned upwards late Fri when the Fed chair said rate increases will be much softer than in previous cycles. Stocks were also supported by lower oil on less anxiety on the new fighting in the Middle-East.
+Chinese stocks reached record highs today in Asia when the Chinese governor promised much more stimulus (some leading indicators show that China may be growing only at 3% - 4%). Mining stocks are down in Asia.
+Oil calmed down over the weekend on signs that Iran may indeed make a nuclear deal with the West this week to greatly lift their oil sales. The US dollar seems ready to rebound again as it lifted slightly.
+Commodities where generally down on expectations of a reviving dollar and news of low Chinese demand growth. Lower oil and lower Chinese interest rates may lead to a better week for mined commodities."
+
+
+
 date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
 
-world_growth_font_size = 8
+world_growth_font_size = 8.2
 general_stories_font_size = 7.2
 content_font_size = 6.03
 
 
 
 
-draw_pdf(commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
+
+
+
+
+
+draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
 puts "..PDF drawn succesfully"
+
+
+
+
+
+
+
+
+
+
+
 
 #List of the delimeters that must be used in the word doc
 #The order of the stories is very important

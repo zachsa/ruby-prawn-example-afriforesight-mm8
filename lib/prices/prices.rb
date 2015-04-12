@@ -5,6 +5,29 @@ require_relative 'prices_module.rb'
 
 class Prices
 	attr_accessor :price_points, :mon_new
+	
+	
+	def price_points_manual
+		price_points = {
+	
+			:baltic => "hasdf",
+			:iron_ore => "asD",
+			:manganese => "asd",
+			:chrome => "",
+			:gold => "",
+			:platinum => "",
+			:palladium => "",
+			:diamonds => "",
+			:copper => "",
+			:nickel => "",
+			:aluminium => "",
+			:coal => "",
+			:oil => "",
+			:gas => "",
+			:uranium => ""
+		}
+	end
+	
 		
 	def initialize(filename)
 		

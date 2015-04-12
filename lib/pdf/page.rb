@@ -120,7 +120,7 @@ def draw_price_point(col, pdf, prices, comm)
 		#pdf.pad(4) do
 		#	pdf.draw_text(prices[comm], :at => [4, pdf.cursor - 4], :size => 7, :inline_format => true, :style => :bold_italic)
 		#end
-		pdf.move_down 2.5
+		pdf.move_down 3.3
 		pdf.text(prices[comm], size: 6.9, :indent_paragraphs => 4, :inline_format => true, :style => :bold)
 		pdf.fill_color '000000'
 		
@@ -167,7 +167,7 @@ end
 
 
 
-def draw_pdf(commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
+def draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
 	#Initialize variables
 	general_stories = commodity_news[:general_stories]
 	iron_ore_stories = commodity_news[:iron_ore]
@@ -266,9 +266,10 @@ def draw_pdf(commodity_news, prices, date_period, world_growth_font_size, genera
 		########## GLOBAL SECTION ##########
 	
 		#World Overview
-		pdf.bounding_box([0, 785], :width => (pdf.bounds.right/2 - 20), :height => 130) do
-			pdf.text("text here" * 50, world_overview_format)
-			pdf.text(prices[:baltic], size: 6.9, :indent_paragraphs => 4, :inline_format => true, :style => :bold)
+		pdf.bounding_box([0, 785], :width => (pdf.bounds.right/2 - 3), :height => 130) do
+			pdf.text(world_growth, world_overview_format)
+			pdf.move_down 2
+			pdf.text(prices[:baltic], size: 6.9, :inline_format => true, :style => :bold)
 		end
 	
 		#General Stories
