@@ -18,11 +18,35 @@ mm8_stories = StoriesJSON.new mm8_final_doc
 commodity_news = mm8_stories.content
 puts "..Parsed stories successfully"
 
-prices_xlsx = find_excel_file
-prices = Prices.new prices_xlsx
+prices_input = :auto
+#prices_input = :manual
 
-prices = prices.price_points
-#prices = prices.price_points_manual
+if prices_input == :auto
+	begin
+		prices_xlsx = find_excel_file
+	rescue
+		puts "ERROR"
+		puts "Cannot locate Excel fiel"
+		exit
+	end
+
+	begin
+		prices = Prices.new prices_xlsx
+		prices = prices.price_points
+	rescue
+		puts "ERROR"
+		puts "Cannot automatically generate price points. Try entering them manually instead."
+		exit
+	end
+elsif prices_input == :manual
+	begin	
+		prices = price_points_manual
+	rescue
+		puts "ERROR"
+		puts "Problem using manual price points, check syntax"
+	end
+end
+
 
 prices = PricesModule::format_for_pdf(prices)
 puts "..Prices loaded successfully"
