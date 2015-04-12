@@ -8,11 +8,11 @@ module PricesModule
 			for i in 0...arr.length do
 				wrd = arr[i]
 				if wrd == "SIDE"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='FFFFFF'> : </color></font>"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='000000'> : </color></font>"
 				elsif wrd == "DOWN"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='FFFFFF'> = </color></font>"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='D45A2A'> = </color></font>"
 				elsif wrd == "UP"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='FFFFFF'> &lt; </color></font>"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='74B743'> &lt; </color></font>"
 				end
 			end
 			p = arr.join " "

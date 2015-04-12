@@ -115,6 +115,7 @@ class Prices
 		
 		@price_points = {
 	
+			:baltic => baltic,
 			:iron_ore => iron_ore,
 			:manganese => manganese_ore,
 			:chrome => chrome_ore,

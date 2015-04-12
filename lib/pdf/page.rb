@@ -110,9 +110,9 @@ def draw_price_point(col, pdf, prices, comm)
 	
 			
 	pdf.bounding_box([x-1, pdf.cursor], :width => 287, :height => 13) do
-		pdf.stroke_color "894131"
+		pdf.stroke_color "6E2009"
 		pdf.stroke do
-			pdf.fill_color "894131"
+			pdf.fill_color "6E2009"
 			pdf.fill_and_stroke_rounded_rectangle [pdf.cursor - 12,pdf.cursor], 287, 13, 0
 			pdf.fill_color 'FFFFFF'
 		end
@@ -121,12 +121,12 @@ def draw_price_point(col, pdf, prices, comm)
 		#	pdf.draw_text(prices[comm], :at => [4, pdf.cursor - 4], :size => 7, :inline_format => true, :style => :bold_italic)
 		#end
 		pdf.move_down 2.5
-		pdf.text(prices[comm], size: 6.9, :indent_paragraphs => 4, :inline_format => true)
+		pdf.text(prices[comm], size: 6.9, :indent_paragraphs => 4, :inline_format => true, :style => :bold)
 		pdf.fill_color '000000'
 		
 		
 		#if comm == :iron_ore
-		#	pdf.fill_color '894131'
+		#	pdf.fill_color '6E2009'
 		#	pdf.fill_rectangle [146.5, 12], 8, 11 
 		#	pdf.fill_color '000000'
 		#	pdf.fill_polygon [147, 10], [152, 6], [157, 2]
@@ -156,7 +156,7 @@ end
 
 
 def heading(txt, pdf, main_content_heading, main_heading_break, format)
-	pdf.fill_color "894131"
+	pdf.fill_color "6E2009"
 	pdf.font 'Arial Narrow', :style => :bold_italic
 	pdf.text(txt, format)
 	pdf.font 'Arial Narrow', :style => :normal
@@ -191,6 +191,8 @@ def draw_pdf(commodity_news, prices, date_period, world_growth_font_size, genera
 	#general_stories_font_size = calculate_font_size("general", general_stories, 130)
 	general_stories_format = {:size => general_stories_font_size, :align => :justify, :inline_format => true}
 	
+	world_overview_format = {:size => world_growth_font_size, :align => :justify}
+	
 	content_space = (620*2) - 270
 	#Heading = 6 x 2pts
 	#Price points = 10 x 12pts
@@ -210,7 +212,7 @@ def draw_pdf(commodity_news, prices, date_period, world_growth_font_size, genera
 	
 	
 		
-	pdf = Prawn::Document.generate("output.pdf", {:margin => [5,5], :page_size => 'A4'}) do |pdf|
+	pdf = Prawn::Document.generate("output/MM8.pdf", {:margin => [5,5], :page_size => 'A4'}) do |pdf|
 
 		general_left = pdf.bounds.right/2 + 7
 		general_right = pdf.bounds.right
@@ -245,7 +247,7 @@ def draw_pdf(commodity_news, prices, date_period, world_growth_font_size, genera
 		pdf.draw_text(date_period, :at => [172, 819], :size => 8, :style => :bold)
 		
 		
-		pdf.fill_color '894131'
+		pdf.fill_color '6E2009'
 		pdf.draw_text('GLOBAL ECONOMIC DEVELOPMENT', :at => [0, 793], :size => 10)
 		pdf.draw_text('GENERAL MINING STORIES', :at => [general_left, 793], :size => 10)
 		pdf.image "#{BASEDIR}/lib/images/logo.png", :at => [510, 832], :width => 70
@@ -265,7 +267,8 @@ def draw_pdf(commodity_news, prices, date_period, world_growth_font_size, genera
 	
 		#World Overview
 		pdf.bounding_box([0, 785], :width => (pdf.bounds.right/2 - 20), :height => 130) do
-			pdf.text('s'*50)
+			pdf.text("text here" * 50, world_overview_format)
+			pdf.text(prices[:baltic], size: 6.9, :indent_paragraphs => 4, :inline_format => true, :style => :bold)
 		end
 	
 		#General Stories
