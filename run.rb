@@ -14,6 +14,7 @@ puts "..All files loaded successfully"
 mm8_final_doc = find_word_file
 puts "..Word doc opened successfully"
 
+
 mm8_stories = StoriesJSON.new mm8_final_doc
 commodity_news = mm8_stories.content
 puts "..Parsed stories successfully"
