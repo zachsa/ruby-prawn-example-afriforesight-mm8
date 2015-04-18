@@ -21,7 +21,7 @@ class StoriesJSON
 		begin
 			content = Sanitize.fragment(content)
 		rescue
-			puts "Problem with sanitize gem"
+			puts "Problem with Sanitize gem"
 			exit
 		end
 		

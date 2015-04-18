@@ -7,7 +7,9 @@ puts "..Base Directory defined as: #{BASEDIR}"
 
 require_relative "lib/commodity/stories.rb"
 require_relative "lib/prices/prices.rb"
-require_relative "lib/pdf/page.rb"
+require_relative "lib/pdf/mm8.rb"
+require_relative "lib/pdf/energy.rb"
+#require_relative "lib/pdf/platinum.rb"
 require_relative "lib/helpers.rb"
 puts "..All files loaded successfully"
 
@@ -71,10 +73,25 @@ Commodities where generally down on expectations of a reviving dollar and news o
 
 date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
 
+
+########## MM8 ##########
+
+
 world_growth_font_size = 8.2
 general_stories_font_size = 7.2
-content_font_size = 6.03
+content_font_size = 7.86
 
+
+
+
+
+
+########## ENERGY ##########
+
+
+world_growth_font_size_energy = 5
+general_stories_font_size_energy = 5
+content_font_size_energy = 15
 
 
 
@@ -84,8 +101,11 @@ content_font_size = 6.03
 
 
 draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
-puts "..PDF drawn succesfully"
+puts "..MM8 PDF drawn succesfully"
 
+
+draw_energy_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
+puts "..MM8 PDF drawn succesfully"
 
 
 

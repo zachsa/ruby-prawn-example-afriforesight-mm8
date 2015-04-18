@@ -21,6 +21,7 @@ module PricesModule
 			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
 			name = "<font size='8'><i>#{arr[0]}</i></font>"
 			prices[comm] = "<b>#{name} #{arr[1]}</b>"
+      
 		end
 		
 		prices
