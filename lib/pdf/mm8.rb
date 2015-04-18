@@ -1,75 +1,33 @@
 require 'prawn'
-require 'sanitize'
+require_relative 'helpers'
 
 
 
-
-
-def draw_price_point(col, pdf, prices, comm)
+class PrawnDocument
+  def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories, font_size, content_font_size)
+  	@general_stories = commodity_news[:general_stories]
+  	@iron_ore_stories = commodity_news[:iron_ore]
+  	@manganese_ore_stories = commodity_news[:manganese_ore]
+  	@chrome_ore_stories = commodity_news[:chrome_ore]
+  	@gold_stories = commodity_news[:gold]
+  	@pgm_stories = commodity_news[:pgm]
+  	@diamonds_stories = commodity_news[:diamonds]
+  	@copper_stories = commodity_news[:copper]
+  	@aluminium_stories = commodity_news[:aluminium]
+  	@nickel_stories = commodity_news[:nickel]
+  	@coal_stories = commodity_news[:coal]
+  	@oil_gas_stories = commodity_news[:oil_gas]
+  	@uranium_stories = commodity_news[:uranium]
     
-	left_margin = 298.5
-	
-	if col == 2 
-		x = left_margin
-	else
-		x = 0
-	end
-	
-	pdf.bounding_box([x-1, pdf.cursor], :width => 287, :height => 13) do
-		pdf.stroke_color "6E2009"
-		pdf.stroke do
-			pdf.fill_color "6E2009"
-			pdf.fill_and_stroke_rounded_rectangle [pdf.cursor - 12,pdf.cursor], 287, 13, 0
-			pdf.fill_color 'FFFFFF'
-		end
-
-		pdf.move_down 3.3
-		pdf.text(prices[comm], size: 6.9, :indent_paragraphs => 4, :inline_format => true, :style => :bold)
-		pdf.fill_color '000000'
-	end
-end
-
-
-
-
-
-
-
-def draw_stories(position, pdf, prices, after_price_break, section_break, stories_format, stories, comm)
-	draw_price_point(position, pdf, prices, comm)
-	pdf.move_down after_price_break
-	stories.each do |s|
-		pdf.text(s, stories_format)
-	end
-	pdf.move_down section_break
-end
-
-
-
-
-
-
-
-def heading(txt, pdf, main_content_heading, main_heading_break, format)
-	pdf.fill_color "6E2009"
-	pdf.font 'Arial Narrow', :style => :bold_italic
-	pdf.text(txt, format)
-	pdf.font 'Arial Narrow', :style => :normal
-	main_heading_break	
-end
-
-
-
-def check_position(positions, pos, pdf)
-  if pdf.cursor < 20
-    pdf.move_down 20
-    pdf.text(' ')
-    positions[pos] = pdf.cursor
-  else
-    positions[pos] = pdf.cursor
+    #General section formatting
+  	@general_stories_format = {:size => general_stories_font_size, :align => :justify, :inline_format => true}
+  	@world_overview_format = {:size => world_growth_font_size, :align => :justify}
   end
-  positions
 end
+
+
+
+
 
 
 
@@ -89,23 +47,13 @@ def draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_fon
 	oil_gas_stories = commodity_news[:oil_gas]
 	uranium_stories = commodity_news[:uranium]
 	
-  content = []
-	commodity_news.each do |comm, arr|
-		content.push arr
-	end
-	
-	#general_stories_font_size = calculate_font_size("general", general_stories, 130)
+  #General section formatting
 	general_stories_format = {:size => general_stories_font_size, :align => :justify, :inline_format => true}
-	
 	world_overview_format = {:size => world_growth_font_size, :align => :justify}
-	
-	content_space = (620*2) - 270
 
-	
+
+	#Formatting for the content section
 	stories_font_size = content_font_size
-	
-	
-	#Formats
 	stories_format = {:size => stories_font_size, :align => :justify, :inline_format => true}
 	main_content_heading = {:size => 9, :indent_paragraphs => 4}
 	sub_content_heading = {:size => 8, :indent_paragraphs => 4}
@@ -116,18 +64,17 @@ def draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_fon
 	
 		
 	pdf = Prawn::Document.generate("output/MM8.pdf", {:margin => [5,5], :page_size => 'A4'}) do |pdf|
-
 		general_left = pdf.bounds.right/2 + 7
 		general_right = pdf.bounds.right
 	
 		#Updates font registry to include custom fonts
+    #Selects Arial Narrow as the font for the document unless otherwise specified
 		pdf.font_families.update("Arial Narrow" => {
 			:normal => "#{BASEDIR}/lib/fonts/Arial Narrow.ttf",
 			:bold => "#{BASEDIR}/lib/fonts/Arial Narrow Bold.ttf",
 			:italic => "#{BASEDIR}/lib/fonts/Arial Narrow Italic.ttf",
 			:bold_italic => "#{BASEDIR}/lib/fonts/Arial Narrow Bold Italic.ttf"
 		})
-		
 		pdf.font_families.update("symbols" => {
 			:normal => "#{BASEDIR}/lib/fonts/Typotheticals - Rhomus Omnilots.ttf",
 			:bold => "#{BASEDIR}/lib/fonts/Typotheticals - Rhomus Omnilots.ttf",
@@ -135,7 +82,6 @@ def draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_fon
 			:bold_italic => "#{BASEDIR}/lib/fonts/Typotheticals - Rhomus Omnilots.ttf"
 
 		})
-		#Selects the custom font
 		pdf.font('Arial Narrow')
 		
 
@@ -190,177 +136,110 @@ def draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_fon
 		
 		pdf.fill_color '000000'
 		
+    
+    
 		########## MAIN CONTENT ##########
 		
 		#Add Column format
 		pdf.column_box([0, 650], :columns => 2, :width => pdf.bounds.width, :height => 630, :overflow => :truncate) do
 			position = {'0' => pdf.cursor}
 			col = 1
-			
-			current = pdf.cursor
-						
+									
 			#METAL ORES HEADING 
 			heading("METAL ORES", pdf, main_content_heading, main_heading_break, main_content_heading)			
-			
-			
+					
 			#Iron ore
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, iron_ore_stories, :iron_ore)
+      draw_price_point(col, pdf, prices, :iron_ore, 13)
+			draw_stories(pdf, after_price_break, section_break, stories_format, iron_ore_stories)   
 			
-      
-      
-
-      
-      
-      
       #Manganese ore
       position = check_position(position, '1', pdf)
 			col = 2 if position['1'] - position['0'] > 0
-			
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, manganese_ore_stories, :manganese)
-
-
-
+			draw_price_point(col, pdf, prices, :manganese, 13)
+			draw_stories(pdf, after_price_break, section_break, stories_format, manganese_ore_stories)
 
 			#Chrome ore
       position = check_position(position, '2', pdf)
 			col = 2 if position['2'] - position['1'] > 0
-      
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, chrome_ore_stories, :chrome)
-			
-			
+      draw_price_point(col, pdf, prices, :chrome, 13)
+			draw_stories(pdf, after_price_break, section_break, stories_format, chrome_ore_stories)
       
       #PRECIOUS METALS HEADING
       position = check_position(position, '3', pdf)
 			col = 2 if position['3'] - position['2'] > 0
-
 			heading("PRECIOUS METALS", pdf, main_content_heading, main_heading_break, main_content_heading)
 			
-      
       #Gold	
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, gold_stories, :gold)
-
-
-
+      draw_price_point(col, pdf, prices, :gold, 13)
+			draw_stories(pdf, after_price_break, section_break, stories_format, gold_stories)
+      
 			#Platinum & Palladium Heading
       position = check_position(position, '4', pdf)
 			col = 2 if position['4'] - position['3'] > 0
-
 			heading("Platinum & Palladium", pdf, main_content_heading, main_heading_break, sub_content_heading)	
 
-				
-			
 			#PGM
-			draw_price_point(col, pdf, prices, :platinum)
-			
+			draw_price_point(col, pdf, prices, :platinum, 13)
       position = check_position(position, '5', pdf)
 			col = 2 if position['5'] - position['4'] > 0
-						
-			draw_price_point(col, pdf, prices, :palladium)
+			draw_price_point(col, pdf, prices, :palladium, 13)
+			draw_stories(pdf, after_price_break, section_break, stories_format, pgm_stories)
 			
-			
-			pdf.move_down after_price_break
-			pgm_stories.each do |s|
-				pdf.text(s, stories_format)
-			end
-			pdf.move_down section_break
-			
-			
-      
 			#Diamonds	
 			position = check_position(position, '6', pdf)
 			col = 2 if position['6'] - position['5'] > 0
-      		
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, diamonds_stories, :diamonds)
+      draw_price_point(col, pdf, prices, :diamonds, 13)		
+			draw_stories(pdf, after_price_break, section_break, stories_format, diamonds_stories)
 			
-      
-      
 			#BASE METALS HEADING
 			position = check_position(position, '7', pdf)
 			col = 2 if position['7'] - position['6'] > 0
-			
 			heading("BASE METALS", pdf, main_content_heading, main_heading_break, main_content_heading)		
 			
-
-
-			#Copper		
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, copper_stories, :copper)			
-			
-      
+			#Copper
+      draw_price_point(col, pdf, prices, :copper, 13)	
+			draw_stories(pdf, after_price_break, section_break, stories_format, copper_stories)			
       
       #Aluminium	
 			position = check_position(position, '8', pdf)
 			col = 2 if position['8'] - position['7'] > 0
-		
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, aluminium_stories, :aluminium)
-			
-      
-      
+      draw_price_point(col, pdf, prices, :aluminium, 13)
+			draw_stories(pdf, after_price_break, section_break, stories_format, aluminium_stories)
       
       #Nickel	
 			position = check_position(position, '9', pdf)
 			col = 2 if position['9'] - position['8'] > 0
-					
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, nickel_stories, :nickel)
+			draw_price_point(col, pdf, prices, :nickel, 13)	
+			draw_stories(pdf, after_price_break, section_break, stories_format, nickel_stories)
 			
-      
-      
       #ENERGY COMMODITIES HEADING
 			position = check_position(position, '10', pdf)
 			col = 2 if position['10'] - position['9'] > 0		
-			
 			heading("ENERGY COMMODITIES", pdf, main_content_heading, main_heading_break, main_content_heading)		
       
-      	
-			
-      
-			#Coal			
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, coal_stories, :coal)
-      
-      
-      
-      
+			#Coal	
+      draw_price_point(col, pdf, prices, :coal, 13)			
+			draw_stories(pdf, after_price_break, section_break, stories_format, coal_stories)
       
       #Oil & Gas Heading
 			position['11'] = pdf.cursor
 			col = 2 if position['11'] - position['10'] > 0
-			
 			position = check_position(position, '11', pdf)
 			col = 2 if position['11'] - position['10'] > 0
-
 			heading("Oil & Gas", pdf, main_content_heading, main_heading_break, sub_content_heading)		
 			
-		
 			#Oil & Gas		
-			draw_price_point(col, pdf, prices, :oil)	
-
-		
+			draw_price_point(col, pdf, prices, :oil, 13)	
 			position = check_position(position, '12', pdf)
 			col = 2 if position['12'] - position['11'] > 0
-
-			draw_price_point(col, pdf, prices, :gas)
+			draw_price_point(col, pdf, prices, :gas, 13)
+      draw_stories(pdf, after_price_break, section_break, stories_format, oil_gas_stories)
 			
-			pdf.move_down after_price_break
-			oil_gas_stories.each do |s|
-				pdf.text(s, stories_format)
-			end
-			pdf.move_down section_break
-			
-			
-      
-      
-      
-      
-      
       #Uranium	
 			position = check_position(position, '13', pdf)
 			col = 2 if position['13'] - position['12'] > 0
-			
-				
-			draw_stories(col, pdf, prices, after_price_break, section_break, stories_format, uranium_stories, :uranium)
-			position['14'] = pdf.cursor
-			col = 2 if position['14'] - position['13'] > 0
-			
-			
+			draw_price_point(col, pdf, prices, :uranium, 13)
+			draw_stories(pdf, after_price_break, section_break, stories_format, uranium_stories)
 		end
 		
 		
@@ -377,7 +256,6 @@ def draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_fon
 	
 	
 		########## FOOTER ##########
-
 		pdf.stroke do
 			pdf.horizontal_line 0, pdf.bounds.right, :at => 20
 			pdf.line_width = 0.05

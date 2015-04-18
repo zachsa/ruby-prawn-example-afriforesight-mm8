@@ -8,7 +8,7 @@ puts "..Base Directory defined as: #{BASEDIR}"
 require_relative "lib/commodity/stories.rb"
 require_relative "lib/prices/prices.rb"
 require_relative "lib/pdf/mm8.rb"
-require_relative "lib/pdf/energy.rb"
+#require_relative "lib/pdf/energy.rb"
 #require_relative "lib/pdf/platinum.rb"
 require_relative "lib/helpers.rb"
 puts "..All files loaded successfully"
@@ -104,8 +104,8 @@ draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_si
 puts "..MM8 PDF drawn succesfully"
 
 
-draw_energy_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
-puts "..MM8 PDF drawn succesfully"
+#draw_energy_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
+#puts "..MM8 PDF drawn succesfully"
 
 
 
