@@ -80,6 +80,8 @@ class Report::Base < Prawn::Document
     self.font('Arial Narrow')
   end
   
+  
+  
   def header_template(title_options, caption_options, date_text_options, global_section_heading_options, general_section_heading_options, image_heading_options, header_line_y)
 		self.draw_text("MONDAY MORNING MINING @ 8", title_options)
 		self.draw_text('This page updates you quickly on key developments relating to mining and extraction over the last week and this Monday afternoon in Asia', caption_options)
@@ -96,6 +98,9 @@ class Report::Base < Prawn::Document
 			self.line_width = 0.05
 		end
   end
+  
+  
+  
   
   
   def global_section_template(global_section_height, global_section_bottom_line, content_y)
@@ -119,6 +124,9 @@ class Report::Base < Prawn::Document
   end
   
   
+  
+  
+  
   def footer_template
 		self.stroke do
 			self.horizontal_line 0, self.bounds.right, :at => 20
@@ -127,6 +135,9 @@ class Report::Base < Prawn::Document
 		self.move_down 5
 		self.text('Disclaimer: The publication’s content is confidential and only for the use of the recipient and remains proprietary to Afriforesight . You may not copy or distribute this document without our written consent. The writers work fast to get the info to you asap and we can make no warranties in respect of accuracy. Any forecast made is just the writer’s best guess and we strongly advise you not to take any risky decisions on them.', :size => 6)
   end
+  
+  
+  
   
   
   def generate_report(title)

@@ -49,16 +49,6 @@ elsif prices_input == :manual
 end
 
 
-prices = PricesModule::format_for_pdf(prices)
-puts "..Prices loaded successfully"
-
-
-
-
-
-
-
-
 
 
 
@@ -79,9 +69,9 @@ content_font_size_general = 7.86
 
 
 ########## ENERGY ##########
-world_growth_font_size_energy = 5
-general_stories_font_size_energy = 5
-content_font_size_energy = 15
+world_growth_font_size_energy = 13.3
+general_stories_font_size_energy = 12.2
+content_font_size_energy = 12.55
 
 
 ########## ENERGY ##########
@@ -93,22 +83,17 @@ content_font_size_platinum = 12.9
 
 
 
+Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
+
+Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
+
+Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
 
-#draw_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)
-#puts "..MM8 PDF drawn succesfully"
+b = Time.now
 
 
-#draw_energy_pdf(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
-#puts "..MM8 PDF drawn succesfully"
-
-
-
-
-
-
-
-
+puts "Runtime: #{(b-a).round(2)} sec"
 
 
 
@@ -131,21 +116,3 @@ delimeters = {
 	URANIUM_STORIES
 }
 =end
-
-
-
-
-
-
-
-Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
-
-Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
-
-Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
-
-
-b = Time.now
-
-
-puts "Runtime: #{(b-a).round(2)} sec"

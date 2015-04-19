@@ -3,6 +3,8 @@ require_relative 'base.rb'
 class Report::GeneralReport < Report::Base
   def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options = {:margin => [5,5], :page_size => 'A4'})
     super(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options)
+    format_prices
+    puts "..Prices loaded successfully"
     generate_report
   end
 
@@ -166,5 +168,27 @@ class Report::GeneralReport < Report::Base
     footer_template
   end
   
+  
+	def format_prices
+		@prices.clone.each do |comm, p|
+			arr = p.split " "
+			
+			for i in 0...arr.length do
+				wrd = arr[i]
+				if wrd.upcase == "SIDE" || wrd.upcase == "FLAT"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='000000'> : </color></font>"
+				elsif wrd.upcase == "DOWN"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='D45A2A'> = </color></font>"
+				elsif wrd.upcase == "UP"
+					arr[i] = "<font name='symbols' size='7.5'><color rgb='74B743'> &lt; </color></font>"
+				end
+			end
+			p = arr.join " "
+			
+			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
+			name = "<font size='8'><i>#{arr[0]}</i></font>"
+			@prices[comm] = "<b>#{name} #{arr[1]}</b>"
+		end
+	end
   
 end

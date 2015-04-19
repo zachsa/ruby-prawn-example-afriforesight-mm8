@@ -1,31 +1,6 @@
 module PricesModule
 	extend self
 	
-	def format_for_pdf(prices)
-		prices.clone.each do |comm, p|
-			arr = p.split " "
-			
-			for i in 0...arr.length do
-				wrd = arr[i]
-				if wrd.upcase == "SIDE" || wrd.upcase == "FLAT"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='000000'> : </color></font>"
-				elsif wrd.upcase == "DOWN"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='D45A2A'> = </color></font>"
-				elsif wrd.upcase == "UP"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='74B743'> &lt; </color></font>"
-				end
-			end
-			p = arr.join " "
-			
-			
-			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
-			name = "<font size='8'><i>#{arr[0]}</i></font>"
-			prices[comm] = "<b>#{name} #{arr[1]}</b>"
-      
-		end
-		
-		prices
-	end
 	
 	def convert_date(date)
 		dates = {}
