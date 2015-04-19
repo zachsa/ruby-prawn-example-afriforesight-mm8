@@ -138,14 +138,11 @@ delimeters = {
 
 
 
-general_report = Report::DefaultReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
-general_report.generate_general_report
+Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
 
-energy_report = Report::DefaultReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
-energy_report.generate_energy_report
+Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
 
-platinum_report = Report::DefaultReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
-platinum_report.generate_platinum_report
+Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
 
 b = Time.now
