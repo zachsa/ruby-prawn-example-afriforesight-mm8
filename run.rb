@@ -72,25 +72,22 @@ Commodities where generally down on expectations of a reviving dollar and news o
 date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
 
 
-########## MM8 ##########
-
-
-world_growth_font_size = 7
-general_stories_font_size = 7.2
-content_font_size = 7.86
-
-
-
-
+########## General Report ##########
+world_growth_font_size_general = 7
+general_stories_font_size_general = 7.2
+content_font_size_general = 7.86
 
 
 ########## ENERGY ##########
-
-
 world_growth_font_size_energy = 5
 general_stories_font_size_energy = 5
 content_font_size_energy = 15
 
+
+########## ENERGY ##########
+world_growth_font_size_platinum = 13.2
+general_stories_font_size_platinum = 12
+content_font_size_platinum = 12.9
 
 
 
@@ -138,10 +135,20 @@ delimeters = {
 
 
 
+
+
+
+general_report = Report::DefaultReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
+general_report.generate_general_report
+
+energy_report = Report::DefaultReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
+energy_report.generate_energy_report
+
+platinum_report = Report::DefaultReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
+platinum_report.generate_platinum_report
+
+
 b = Time.now
 
 
 puts "Runtime: #{(b-a).round(2)} sec"
-
-
-Report::DefaultReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size)

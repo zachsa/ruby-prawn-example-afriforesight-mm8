@@ -54,12 +54,11 @@ class Report::DefaultReport < Prawn::Document
     
     #Create document as self
     super(default_prawn_options)
-    set_up_general
-    generate_reports
+    set_up_general_attributes
   end
   
   
-  def set_up_general
+  def set_up_general_attributes
 		@general_left = bounds.right/2 + 7
 		@general_right = bounds.right
     
@@ -78,7 +77,7 @@ class Report::DefaultReport < Prawn::Document
     self.font('Arial Narrow')
   end
   
-  def generate_reports
+  def generate_general_report
     #General report
     begin
       general_report = self
@@ -92,9 +91,11 @@ class Report::DefaultReport < Prawn::Document
       puts "Unable to generate General Report"
       exit
     end
-    
+  end
+  
+  def generate_energy_report
     #Energy report
-    #begin
+    begin
       energy_report = self
       energy_report.extend(Report::EnergyReport)
       energy_report.header
@@ -102,11 +103,13 @@ class Report::DefaultReport < Prawn::Document
       energy_report.main_content
       energy_report.footer
       energy_report.render_file "#{BASEDIR}/output/Energy Report.pdf"
-      #rescue
-      #puts "Unable to generate Energy Report"
-      #exit
-      #end
-    
+    rescue
+      puts "Unable to generate Energy Report"
+      exit
+    end
+  end
+  
+  def generate_platinum_report
     #Platinum report
     begin
       platinum_report = self
@@ -118,8 +121,7 @@ class Report::DefaultReport < Prawn::Document
       platinum_report.render_file "#{BASEDIR}/output/Platinum Report.pdf"
     rescue
       puts "Unable to generate Platinum Report"
-    end
-    
+    end 
   end
   
 end

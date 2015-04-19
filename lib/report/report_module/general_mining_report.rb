@@ -17,8 +17,9 @@ module Report::GeneralMiningReport
   def global_section
     global_section_height = 130
     global_section_bottom_line = 660
+    content_y = 785
     
-    global_section = self.extend(Report).global_section_template(global_section_height, global_section_bottom_line)
+    global_section = self.extend(Report).global_section_template(global_section_height, global_section_bottom_line, content_y)
   end
   
   

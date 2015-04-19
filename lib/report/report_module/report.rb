@@ -17,15 +17,15 @@ module Report
   end
   
   
-  def global_section_template(global_section_height, global_section_bottom_line)
+  def global_section_template(global_section_height, global_section_bottom_line, content_y)
 		#World Overview
-		self.bounding_box([0, 785], :width => (self.bounds.right/2 - 3), :height => global_section_height) do
+		self.bounding_box([0, content_y], :width => (self.bounds.right/2 - 3), :height => global_section_height) do
 			self.text(@world_growth, @world_overview_format)
 			self.move_down 2
 			self.text(@prices[:baltic], size: 6.9, :inline_format => true, :style => :bold)
 		end
 		#General Stories
-		self.bounding_box([@general_left, 785], :width => (self.bounds.right/2 - 9), :height => global_section_height) do
+		self.bounding_box([@general_left, content_y], :width => (self.bounds.right/2 - 9), :height => global_section_height) do
 			@general_stories.each do |s|
 				self.text(s, @general_stories_format)
 			end
