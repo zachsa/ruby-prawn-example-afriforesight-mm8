@@ -28,7 +28,7 @@ def draw_stories(pdf, after_price_break, section_break, stories_format, stories)
 end
 
 
-def heading(txt, pdf, main_content_heading, main_heading_break, format)
+def heading(txt, pdf, main_heading_break, format)
 	pdf.fill_color "6E2009"
 	pdf.font 'Arial Narrow', :style => :bold_italic
 	pdf.text(txt, format)
