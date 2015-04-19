@@ -7,7 +7,7 @@ puts "..Base Directory defined as: #{BASEDIR}"
 
 require_relative "lib/commodity/stories.rb"
 require_relative "lib/prices/prices.rb"
-require_relative "lib/pdf/mm8.rb"
+require_relative "lib/report/mm8.rb"
 require_relative "lib/helpers.rb"
 puts "..All files loaded successfully"
 
