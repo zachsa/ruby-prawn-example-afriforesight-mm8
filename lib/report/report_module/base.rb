@@ -5,11 +5,11 @@ class Report::Base < Prawn::Document
   #Initializes the document parameters and content instances
   #Creates the Prawn document
   def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options)
-  
+      
     #General variables
     @date_period = date_period
     @world_growth = world_growth
-    @prices = prices
+    @prices = Marshal.load(Marshal.dump(prices))
   
   	#Selects relevant stories
     @general_stories = commodity_news[:general_stories]
@@ -40,11 +40,11 @@ class Report::Base < Prawn::Document
     @side_arrow_color = '000000' #Used in prices module (just for reference)
     
     #General section formatting
-  	@general_stories_format = {:size => @general_stories_font_size, :align => :justify, :inline_format => true}
+  	@general_stories_format = {:size => @general_stories_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2}
   	@world_overview_format = {:size => @world_growth_font_size, :align => :justify}
     
     #Main content formatting
-  	@stories_format = {:size => @content_font_size, :align => :justify, :inline_format => true}
+  	@stories_format = {:size => @content_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2}
     
     #Headings formats
   	@main_content_heading_format = {:size => 9, :indent_paragraphs => 4}
@@ -52,7 +52,7 @@ class Report::Base < Prawn::Document
     
     #Breaks formats
   	@main_heading_break = 2
-  	@section_break = 6
+  	@section_break = 3
   	@after_price_break = 0 # Defined in sub classes for each report
     
     #Create document as self
@@ -87,11 +87,12 @@ class Report::Base < Prawn::Document
 		self.draw_text('This page updates you quickly on key developments relating to mining and extraction over the last week and this Monday afternoon in Asia', caption_options)
 		self.draw_text(@date_period, date_text_options)
 		
-		self.fill_color '6E2009'
+		self.fill_color @brown
 		self.draw_text('GLOBAL ECONOMIC DEVELOPMENT', global_section_heading_options)
 		self.draw_text('GENERAL MINING STORIES', general_section_heading_options)
 		self.image "#{BASEDIR}/lib/images/logo.png", image_heading_options
-	
+	  
+    stroke_color @brown
 		self.stroke do
 			self.horizontal_line 0, (self.bounds.right/2 - 3), :at => header_line_y
 			self.horizontal_line @general_left, @general_right, :at => header_line_y
@@ -113,9 +114,13 @@ class Report::Base < Prawn::Document
 		#General Stories
 		self.bounding_box([@general_left, content_y], :width => (self.bounds.right/2 - 9), :height => global_section_height) do
 			@general_stories.each do |s|
-				self.text(s, @general_stories_format)
+				self.indent(1) do
+          self.text(s, @general_stories_format)
+          self.move_down 0
+        end
 			end
 		end
+    stroke_color @brown
 		self.stroke do
 			self.horizontal_line 0, self.bounds.right, :at => global_section_bottom_line
 			self.line_width = 0.05
@@ -124,10 +129,8 @@ class Report::Base < Prawn::Document
   end
   
   
-  
-  
-  
   def footer_template
+    fill_color @brown
 		self.stroke do
 			self.horizontal_line 0, self.bounds.right, :at => 20
 			self.line_width = 0.05
@@ -157,7 +160,7 @@ class Report::Base < Prawn::Document
   
   
   
-  def draw_price_point(col, prices, comm, box_height)  
+  def draw_price_point(col, prices, comm, price_point_size, vertical_padding)  
     #Sets the margin depending on which column is being drawn
   	left_margin = 298
   	if col == 2 
@@ -169,16 +172,40 @@ class Report::Base < Prawn::Document
     bounding_box([x, cursor], :width => 288, :margin => [0, 0]) do
       #1st creates a coloured rectangle
       fill_and_stroke do
-        rectangle([0, cursor], 288, box_height)
+        rectangle([0, cursor], 288, price_point_size)
         fill_color @brown
         stroke_color @white
       end
       #Adds text on top of the box
       fill_color(@white)
-  		move_down 3.3
-  		text(prices[comm], size: 6.9, :indent_paragraphs => 4, :inline_format => true, :style => :bold)
+  		move_down vertical_padding
+  		text(prices[comm], :indent_paragraphs => 4, :inline_format => true, :style => :bold)
       fill_color(@black)
     end
+  end
+  
+  
+  
+  
+  
+  
+  def check_position(positions, position)
+    if self.class.to_s == 'Report::GeneralReport'
+      box_height = 20
+    elsif self.class.to_s =="Report::EnergyReport"
+      box_height = 38
+    elsif self.class.to_s =="Report::PlatinumReport"
+      box_height = 38
+    end
+    
+    if cursor < box_height
+      move_down box_height
+      text(' ')
+      positions[position] = cursor
+    else
+      positions[position] = cursor
+    end
+    positions
   end
   
   

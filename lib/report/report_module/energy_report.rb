@@ -37,44 +37,49 @@ class Report::EnergyReport < Report::Base
   end
   
   def main_content
-    price_point_size = 26
+    price_point_size = 31
+    vertical_padding = 5
     
 		#Add Column format
 		self.column_box([0, 470], :columns => 2, :width => self.bounds.width, :height => 450, :overflow => :truncate) do
-			position = {'0' => self.cursor}
+			position = {'0' => cursor}
 			col = 1
 
       #Oil & Gas	
-			position = check_position(position, '1', self)
-			col = 2 if position['1'] - position['0'] > 0	
-			draw_price_point(col, @prices, :oil, price_point_size)	
-			position = check_position(position, '2', self)
-			col = 2 if position['2'] - position['1'] > 0
-			draw_price_point(col, @prices, :gas, price_point_size)
+			position = check_position(position, '1')
+			col = 2 if position['1'] - position['0'] > 0		
+			draw_price_point(col, @prices, :oil, price_point_size, vertical_padding)	
+			position = check_position(position, '2')
+			col = 2 if position['2'] - position['1'] > 0	
+			draw_price_point(col, @prices, :gas, price_point_size, vertical_padding)
       move_down @after_price_break
       draw_stories(self, @section_break, @stories_format, @oil_gas_stories)
+      
+     
  
 			
       #Coal	
-			position = check_position(position, '3', self)
-			col = 2 if position['3'] - position['2'] > 0		
-      draw_price_point(col, @prices, :coal, price_point_size)			
+			position = check_position(position, '3')
+      puts position
+			col = 2 if position['3'] - position['2'] > 0 - price_point_size		
+      draw_price_point(col, @prices, :coal, price_point_size, vertical_padding)			
 			move_down @after_price_break
       draw_stories(self, @section_break, @stories_format, @coal_stories)
 
 			
       #Uranium	
-			position = check_position(position, '4', self)
-			col = 2 if position['4'] - position['3'] > 0
-			draw_price_point(col, @prices, :uranium, price_point_size)
+			position = check_position(position, '4')
+			col = 2 if position['4'] - position['3'] > 0 - price_point_size	
+			draw_price_point(col, @prices, :uranium, price_point_size, vertical_padding)
 			move_down @after_price_break
       draw_stories(self, @section_break, @stories_format, @uranium_stories)
 		end
 		
 		########## Middle Line ##########
-		self.stroke do
-			self.vertical_line 25, 470, :at => 293
-			self.line_width = 0.05
+		stroke_color @brown
+    stroke do
+			vertical_line 25, 470, :at => 293
+			line_width = 0.05
 		end
   end
   
@@ -97,11 +102,18 @@ class Report::EnergyReport < Report::Base
 				end
 			end
 			p = arr.join " "
+      
 			
 			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
-			name = "<font size='8'><i>#{arr[0]}</i></font>"
-			@prices[comm] = "<b>#{name}
-      #{arr[1]}</b>"
+			name = "<font size='11'><b><i>#{arr[0]}</i></b></font>"
+      price = "<font size='8'><b>#{arr[1]}</b></font>"
+      
+      if comm == :baltic
+        @prices[comm] = "#{name} #{price}"
+      else
+        @prices[comm] = "#{name}
+        #{price}"
+      end
 		end
 	end
   

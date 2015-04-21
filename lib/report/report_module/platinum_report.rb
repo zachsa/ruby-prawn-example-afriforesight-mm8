@@ -24,7 +24,7 @@ class Report::PlatinumReport < Report::Base
     image_heading_options = {:at => [484, 832], :width => 100}
     header_line_y = 778
     
-    header = self.extend(Report).header_template(title_options, caption_options, date_text_options, global_section_heading_options, general_section_heading_options, image_heading_options, header_line_y)
+    header = header_template(title_options, caption_options, date_text_options, global_section_heading_options, general_section_heading_options, image_heading_options, header_line_y)
   end
   
   
@@ -40,60 +40,65 @@ class Report::PlatinumReport < Report::Base
   
 
   def main_content
+    price_point_size = 31
+    vertical_padding = 5
+    
 		#Add Column format
 		self.column_box([0, 502], :columns => 2, :width => self.bounds.width, :height => 482, :overflow => :truncate) do
 			position = {'0' => self.cursor}
 			col = 1
       
       #PGM
-      position = check_position(position, '1', self)      
+      position = check_position(position, '1')      
 			col = 2 if position['1'] - position['0'] > 0
-			draw_price_point(col, @prices, :platinum, 13)
-      position = check_position(position, '2', self)
+			draw_price_point(col, @prices, :platinum, price_point_size, vertical_padding)
+      position = check_position(position, '2')
 			col = 2 if position['2'] - position['1'] > 0
-			draw_price_point(col, @prices, :palladium, 13)
+			draw_price_point(col, @prices, :palladium, price_point_size, vertical_padding)
       move_down @after_price_break
 			draw_stories(self, @section_break, @stories_format, @pgm_stories)
       
       
 			#Chrome ore
-      position = check_position(position, '3', self)
-			col = 2 if position['3'] - position['2'] > 0
-      draw_price_point(col, @prices, :chrome, 13)
+      position = check_position(position, '3')
+			col = 2 if position['3'] - position['2'] > 0 - price_point_size	
+      draw_price_point(col, @prices, :chrome, price_point_size, vertical_padding)
       move_down @after_price_break
 			draw_stories(self, @section_break, @stories_format, @chrome_ore_stories)
       
 			#Copper
-			position = check_position(position, '4', self)
-			col = 2 if position['4'] - position['3'] > 0		
-      draw_price_point(col, @prices, :copper, 13)
+			position = check_position(position, '4')
+			col = 2 if position['4'] - position['3'] > 0 - price_point_size			
+      draw_price_point(col, @prices, :copper, price_point_size, vertical_padding)
       move_down @after_price_break
 			draw_stories(self, @section_break, @stories_format, @copper_stories)	
       
       #Gold	
-      position = check_position(position, '5', self)
-			col = 2 if position['5'] - position['4'] > 0
-      draw_price_point(col, @prices, :gold, 13)
+      position = check_position(position, '5')
+			col = 2 if position['5'] - position['4'] > 0 - price_point_size	
+      draw_price_point(col, @prices, :gold, price_point_size, vertical_padding)
       move_down @after_price_break
 			draw_stories(self, @section_break, @stories_format, @gold_stories)
       
       #Nickel	
-			position = check_position(position, '6', self)
-			col = 2 if position['6'] - position['5'] > 0
-			draw_price_point(col, @prices, :nickel, 13)
+			position = check_position(position, '6')
+			col = 2 if position['6'] - position['5'] > 0 - price_point_size	
+			draw_price_point(col, @prices, :nickel, price_point_size, vertical_padding)
       move_down @after_price_break
 			draw_stories(self, @section_break, @stories_format, @nickel_stories)
 		end
 		
 		########## Middle Line ##########
-		self.stroke do
-			self.vertical_line 25, 502, :at => 293
-			self.line_width = 0.05
+    
+    stroke_color @brown
+		stroke do 
+			vertical_line 25, 502, :at => 293
+			line_width = 0.05
 		end
   end
   
   def footer
-    footer = self.extend(Report).footer_template
+    footer = footer_template
   end
   
 	def format_prices
@@ -113,8 +118,15 @@ class Report::PlatinumReport < Report::Base
 			p = arr.join " "
 			
 			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
-			name = "<font size='8'><i>#{arr[0]}</i></font>"
-			@prices[comm] = "<b>#{name} #{arr[1]}</b>"
+			name = "<font size='11'><b><i>#{arr[0]}</i></b></font>"
+      price = "<font size='8'><b>#{arr[1]}</b></font>"
+      
+      if comm == :baltic
+        @prices[comm] = "#{name} #{price}"
+      else
+        @prices[comm] = "#{name}
+        #{price}"
+      end
 		end
 	end 
 

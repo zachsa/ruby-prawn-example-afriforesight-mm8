@@ -3,7 +3,10 @@
 
 def draw_stories(pdf, section_break, stories_format, stories)
 	stories.each do |s|
-		pdf.text(s, stories_format)
+    pdf.indent(1) do
+		  pdf.text(s, stories_format)
+      pdf.move_down 0
+    end
 	end
 	pdf.move_down section_break
 end
@@ -19,13 +22,3 @@ end
 
 
 
-def check_position(positions, position, pdf)
-  if pdf.cursor < 20
-    pdf.move_down 20
-    pdf.text(' ')
-    positions[position] = pdf.cursor
-  else
-    positions[position] = pdf.cursor
-  end
-  positions
-end

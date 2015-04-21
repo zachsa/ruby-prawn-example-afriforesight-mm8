@@ -65,19 +65,19 @@ date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
 ########## General Report ##########
 world_growth_font_size_general = 7
 general_stories_font_size_general = 7.2
-content_font_size_general = 7.86
+content_font_size_general = 7.75
 
 
 ########## ENERGY ##########
 world_growth_font_size_energy = 13.3
 general_stories_font_size_energy = 12.2
-content_font_size_energy = 12.55
+content_font_size_energy = 11.9
 
 
-########## ENERGY ##########
-world_growth_font_size_platinum = 13.2
+########## PLATINUM ##########
+world_growth_font_size_platinum = 13
 general_stories_font_size_platinum = 12
-content_font_size_platinum = 12.9
+content_font_size_platinum = 11.6
 
 
 
@@ -88,7 +88,6 @@ Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, wor
 Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
 
 Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
-
 
 b = Time.now
 

@@ -160,7 +160,7 @@ class Prices
 			:gas => gas,
 			:uranium => uranium
 		}
-
+    
 	end
 	
 	
