@@ -31,6 +31,8 @@ class Report::EnergyReport < Report::Base
   end
   
   def main_content
+    price_point_size = 13
+    
 		#Add Column format
 		self.column_box([0, 470], :columns => 2, :width => self.bounds.width, :height => 450, :overflow => :truncate) do
 			position = {'0' => self.cursor}
@@ -39,24 +41,24 @@ class Report::EnergyReport < Report::Base
       #Oil & Gas	
 			position = check_position(position, '1', self)
 			col = 2 if position['1'] - position['0'] > 0	
-			draw_price_point(col, self, @prices, :oil, 13)	
+			draw_price_point(col, self, @prices, :oil, price_point_size)	
 			position = check_position(position, '2', self)
 			col = 2 if position['2'] - position['1'] > 0
-			draw_price_point(col, self, @prices, :gas, 13)
+			draw_price_point(col, self, @prices, :gas, price_point_size)
       draw_stories(self, @after_price_break, @section_break, @stories_format, @oil_gas_stories)
  
 			
       #Coal	
 			position = check_position(position, '3', self)
 			col = 2 if position['3'] - position['2'] > 0		
-      draw_price_point(col, self, @prices, :coal, 13)			
+      draw_price_point(col, self, @prices, :coal, price_point_size)			
 			draw_stories(self, @after_price_break, @section_break, @stories_format, @coal_stories)
 
 			
       #Uranium	
 			position = check_position(position, '4', self)
 			col = 2 if position['4'] - position['3'] > 0
-			draw_price_point(col, self, @prices, :uranium, 13)
+			draw_price_point(col, self, @prices, :uranium, price_point_size)
 			draw_stories(self, @after_price_break, @section_break, @stories_format, @uranium_stories)
 		end
 		
