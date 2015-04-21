@@ -3,9 +3,15 @@ require_relative 'base.rb'
 class Report::EnergyReport < Report::Base
   def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options = {:margin => [5,5], :page_size => 'A4'})
     super(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options)
+    
+    #Reassigns breaks
+  	@after_price_break = 10
+    
     format_prices
     puts "..Prices loaded successfully"
     generate_report('Energy Report')
+    
+
   end
   
   def header
@@ -19,7 +25,7 @@ class Report::EnergyReport < Report::Base
     image_heading_options = {:at => [510, 832], :width => 80}
     header_line_y = 770
     
-    header = self.extend(Report).header_template(title_options, caption_options, date_text_options, global_section_heading_options, general_section_heading_options, image_heading_options, header_line_y)
+    header = self.header_template(title_options, caption_options, date_text_options, global_section_heading_options, general_section_heading_options, image_heading_options, header_line_y)
   end
   
   def global_section
@@ -27,11 +33,11 @@ class Report::EnergyReport < Report::Base
     global_section_bottom_line = 480
     content_y = 767
     
-    global_section = self.extend(Report).global_section_template(global_section_height, global_section_bottom_line, content_y)
+    global_section = global_section_template(global_section_height, global_section_bottom_line, content_y)
   end
   
   def main_content
-    price_point_size = 13
+    price_point_size = 26
     
 		#Add Column format
 		self.column_box([0, 470], :columns => 2, :width => self.bounds.width, :height => 450, :overflow => :truncate) do
@@ -41,25 +47,28 @@ class Report::EnergyReport < Report::Base
       #Oil & Gas	
 			position = check_position(position, '1', self)
 			col = 2 if position['1'] - position['0'] > 0	
-			draw_price_point(col, self, @prices, :oil, price_point_size)	
+			draw_price_point(col, @prices, :oil, price_point_size)	
 			position = check_position(position, '2', self)
 			col = 2 if position['2'] - position['1'] > 0
-			draw_price_point(col, self, @prices, :gas, price_point_size)
-      draw_stories(self, @after_price_break, @section_break, @stories_format, @oil_gas_stories)
+			draw_price_point(col, @prices, :gas, price_point_size)
+      move_down @after_price_break
+      draw_stories(self, @section_break, @stories_format, @oil_gas_stories)
  
 			
       #Coal	
 			position = check_position(position, '3', self)
 			col = 2 if position['3'] - position['2'] > 0		
-      draw_price_point(col, self, @prices, :coal, price_point_size)			
-			draw_stories(self, @after_price_break, @section_break, @stories_format, @coal_stories)
+      draw_price_point(col, @prices, :coal, price_point_size)			
+			move_down @after_price_break
+      draw_stories(self, @section_break, @stories_format, @coal_stories)
 
 			
       #Uranium	
 			position = check_position(position, '4', self)
 			col = 2 if position['4'] - position['3'] > 0
-			draw_price_point(col, self, @prices, :uranium, price_point_size)
-			draw_stories(self, @after_price_break, @section_break, @stories_format, @uranium_stories)
+			draw_price_point(col, @prices, :uranium, price_point_size)
+			move_down @after_price_break
+      draw_stories(self, @section_break, @stories_format, @uranium_stories)
 		end
 		
 		########## Middle Line ##########
@@ -70,7 +79,7 @@ class Report::EnergyReport < Report::Base
   end
   
   def footer
-    footer = self.extend(Report).footer_template
+    footer_template
   end
   
 	def format_prices
@@ -91,7 +100,8 @@ class Report::EnergyReport < Report::Base
 			
 			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
 			name = "<font size='8'><i>#{arr[0]}</i></font>"
-			@prices[comm] = "<b>#{name} #{arr[1]}</b>"
+			@prices[comm] = "<b>#{name}
+      #{arr[1]}</b>"
 		end
 	end
   

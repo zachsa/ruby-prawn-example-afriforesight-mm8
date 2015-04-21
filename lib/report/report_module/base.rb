@@ -53,7 +53,7 @@ class Report::Base < Prawn::Document
     #Breaks formats
   	@main_heading_break = 2
   	@section_break = 6
-  	@after_price_break = 2
+  	@after_price_break = 0 # Defined in sub classes for each report
     
     #Create document as self
     super(default_prawn_options)
@@ -132,8 +132,9 @@ class Report::Base < Prawn::Document
 			self.horizontal_line 0, self.bounds.right, :at => 20
 			self.line_width = 0.05
 		end
-		self.move_down 5
-		self.text('Disclaimer: The publication’s content is confidential and only for the use of the recipient and remains proprietary to Afriforesight . You may not copy or distribute this document without our written consent. The writers work fast to get the info to you asap and we can make no warranties in respect of accuracy. Any forecast made is just the writer’s best guess and we strongly advise you not to take any risky decisions on them.', :size => 6)
+    self.fill_color '000000'
+		move_down 5
+		text('Disclaimer: The publication’s content is confidential and only for the use of the recipient and remains proprietary to Afriforesight . You may not copy or distribute this document without our written consent. The writers work fast to get the info to you asap and we can make no warranties in respect of accuracy. Any forecast made is just the writer’s best guess and we strongly advise you not to take any risky decisions on them.', :size => 6)
   end
   
   
@@ -141,15 +142,42 @@ class Report::Base < Prawn::Document
   
   
   def generate_report(title)
-    begin
+    #begin
       header
       global_section
       main_content
       footer
-      self.render_file "#{BASEDIR}/output/#{title}.pdf"
-    rescue
-      puts "Unable to generate #{title}"
-      exit
+      render_file "#{BASEDIR}/output/#{title}.pdf"
+      #rescue
+      #puts "Unable to generate #{title}"
+      #exit
+      #end
+  end
+  
+  
+  
+  
+  def draw_price_point(col, prices, comm, box_height)  
+    #Sets the margin depending on which column is being drawn
+  	left_margin = 298
+  	if col == 2 
+  		x = left_margin
+  	else
+  		x = -0.5
+  	end
+    #Creates a bounding box for the rectangle and the text
+    bounding_box([x, cursor], :width => 288, :margin => [0, 0]) do
+      #1st creates a coloured rectangle
+      fill_and_stroke do
+        rectangle([0, cursor], 288, box_height)
+        fill_color @brown
+        stroke_color @white
+      end
+      #Adds text on top of the box
+      fill_color(@white)
+  		move_down 3.3
+  		text(prices[comm], size: 6.9, :indent_paragraphs => 4, :inline_format => true, :style => :bold)
+      fill_color(@black)
     end
   end
   

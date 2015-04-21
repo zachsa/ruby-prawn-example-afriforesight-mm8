@@ -3,6 +3,10 @@ require_relative 'base.rb'
 class Report::PlatinumReport < Report::Base
   def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options = {:margin => [5,5], :page_size => 'A4'})
     super(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options)
+    
+    #Reassigns breaks
+  	@after_price_break = 10
+    
     format_prices
     puts "..Prices loaded successfully"
     generate_report('Platinum Report')
@@ -44,36 +48,41 @@ class Report::PlatinumReport < Report::Base
       #PGM
       position = check_position(position, '1', self)      
 			col = 2 if position['1'] - position['0'] > 0
-			draw_price_point(col, self, @prices, :platinum, 13)
+			draw_price_point(col, @prices, :platinum, 13)
       position = check_position(position, '2', self)
 			col = 2 if position['2'] - position['1'] > 0
-			draw_price_point(col, self, @prices, :palladium, 13)
-			draw_stories(self, @after_price_break, @section_break, @stories_format, @pgm_stories)
+			draw_price_point(col, @prices, :palladium, 13)
+      move_down @after_price_break
+			draw_stories(self, @section_break, @stories_format, @pgm_stories)
       
       
 			#Chrome ore
       position = check_position(position, '3', self)
 			col = 2 if position['3'] - position['2'] > 0
-      draw_price_point(col, self, @prices, :chrome, 13)
-			draw_stories(self, @after_price_break, @section_break, @stories_format, @chrome_ore_stories)
+      draw_price_point(col, @prices, :chrome, 13)
+      move_down @after_price_break
+			draw_stories(self, @section_break, @stories_format, @chrome_ore_stories)
       
 			#Copper
 			position = check_position(position, '4', self)
 			col = 2 if position['4'] - position['3'] > 0		
-      draw_price_point(col, self, @prices, :copper, 13)	
-			draw_stories(self, @after_price_break, @section_break, @stories_format, @copper_stories)	
+      draw_price_point(col, @prices, :copper, 13)
+      move_down @after_price_break
+			draw_stories(self, @section_break, @stories_format, @copper_stories)	
       
       #Gold	
       position = check_position(position, '5', self)
 			col = 2 if position['5'] - position['4'] > 0
-      draw_price_point(col, self, @prices, :gold, 13)
-			draw_stories(self, @after_price_break, @section_break, @stories_format, @gold_stories)
+      draw_price_point(col, @prices, :gold, 13)
+      move_down @after_price_break
+			draw_stories(self, @section_break, @stories_format, @gold_stories)
       
       #Nickel	
 			position = check_position(position, '6', self)
 			col = 2 if position['6'] - position['5'] > 0
-			draw_price_point(col, self, @prices, :nickel, 13)	
-			draw_stories(self, @after_price_break, @section_break, @stories_format, @nickel_stories)
+			draw_price_point(col, @prices, :nickel, 13)
+      move_down @after_price_break
+			draw_stories(self, @section_break, @stories_format, @nickel_stories)
 		end
 		
 		########## Middle Line ##########
