@@ -145,16 +145,43 @@ class Report::Base < Prawn::Document
   
   
   def generate_report(title)
-    #begin
+    begin
       header
+    rescue
+      puts "ERROR: problem drawing the header (#{title} report)"
+      exit
+    end
+    
+    begin
       global_section
+    rescue
+      puts "ERROR: problem drawing the global section (#{title} report)"
+      exit
+    end
+    
+    begin
       main_content
+    rescue
+      puts "ERROR: problem drawing the main content section (#{title} report)"
+      exit
+    end
+    
+    begin
       footer
+    rescue
+      puts "ERROR: problem drawing the footer (#{title} report)"
+      exit
+    end
+    
+    begin
+      if File.directory?("#{BASEDIR}/output") == false
+        Dir.mkdir("#{BASEDIR}/output")
+      end
       render_file "#{BASEDIR}/output/#{title}.pdf"
-      #rescue
-      #puts "Unable to generate #{title}"
-      #exit
-      #end
+    rescue
+      puts "Unable to generate the #{title} pdf"
+      exit
+    end
   end
   
   

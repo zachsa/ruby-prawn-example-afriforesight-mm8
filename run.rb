@@ -63,9 +63,9 @@ date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
 
 
 ########## General Report ##########
-world_growth_font_size_general = 7
-general_stories_font_size_general = 7.2
-content_font_size_general = 7.75
+world_growth_font_size_general = 8
+general_stories_font_size_general = 7.7
+content_font_size_general = 7.91
 
 
 ########## ENERGY ##########
