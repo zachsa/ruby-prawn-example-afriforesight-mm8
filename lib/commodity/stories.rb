@@ -33,12 +33,12 @@ class StoriesJSON
 			exit
 		end
 		
-		
+		@content_for_db = Marshal.load(Marshal.dump(content))
 		content = split_stories_by_country(content)
 		content = make_country_bold(content)
 		
 		@content = join_formatted_data(content)
-		@content_for_db = content
+		
 		
 	end
 	

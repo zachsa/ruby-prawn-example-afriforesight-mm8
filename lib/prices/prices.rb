@@ -8,21 +8,21 @@ require_relative 'prices_module.rb'
 def price_points_manual
 	price_points = {
 
-		:baltic => "hasdf",
-		:iron_ore => "asD",
-		:manganese => "asd",
-		:chrome => "",
-		:gold => "",
-		:platinum => "",
-		:palladium => "",
-		:diamonds => "",
-		:copper => "",
-		:nickel => "",
-		:aluminium => "",
-		:coal => "",
-		:oil => "",
-		:gas => "",
-		:uranium => ""
+		:baltic => "BALTIC DRY - Down 3% on Friday from Fri 27 Mar. Capesize rates up 2.2%.",
+		:iron_ore => "IRON ORE Fri 10 Apr Qingdao, China close: $47.5/t DOWN 10.6% from Fri 27 Mar close",
+		:manganese => "MANGANESE Fri 10 Apr close: $2.42/dmtu ($92/t) DOWN 7.3% from Fri 27 Mar close",
+		:chrome => "CHROME ORE Fri 10 Apr South Africa close: $160.5/t UP 1.6% from Fri 27 Mar close",
+		:gold => "GOLD Today’s afternoon price in Asia: $1 205/oz UP 0.8% from Mon morning 30 Mar",
+		:platinum => "PLATINUM Today’s afternoon price in Asia: $1 167/oz UP 3% from Mon morning 30 Mar",
+		:palladium => "PALLADIUM Today’s afternoon price in Asia: $776 /oz UP 4.9% from Mon morning 30 Mar",
+		:diamonds => "DIAMONDS Overall polished price index Fri  10 Apr close: 135 FLAT from Fri 27 Mar close",
+		:copper => "COPPER Today’s afternoon price in Asia: $6 046/t DOWN 0.9% from Mon morning 30 Mar",
+		:nickel => "NICKEL Today’s afternoon price in Asia: $12 677/t DOWN 2.8% from Mon morning 30 Mar",
+		:aluminium => "ALUMINIUM Today’s afternoon price in Asia: $1 708/t DOWN 1.3% from Mon morning 30 Mar",
+		:coal => "COAL Richards Bay Thermal Coal Fri 10 Apr close: $58.4/t DOWN 4.1% from Fri 27 Mar close",
+		:oil => "OIL Today’s afternoon price in Asia: $57.90/b up 3.4% from Mon morning 30 Mar",
+		:gas => "GAS Henry Hub Fri 20 Mar close: $2.54/mBtu down 3.3% from Fri 27 Mar close",
+		:uranium => "URANIUM 308 Fri 10 Apr close: $39.1/lb down 0.6% from Fri 27 Mar close"
 	}
 end
 

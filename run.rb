@@ -9,6 +9,7 @@ require_relative "lib/commodity/stories.rb"
 require_relative "lib/prices/prices.rb"
 require_relative "lib/report/mm8.rb"
 require_relative "lib/helpers.rb"
+require_relative "lib/db/db_api.rb"
 puts "..All files loaded successfully"
 
 mm8_final_doc = find_word_file
@@ -17,10 +18,11 @@ puts "..Word doc opened successfully"
 
 mm8_stories = StoriesJSON.new mm8_final_doc
 commodity_news = mm8_stories.content
+commodity_news_db = mm8_stories.content_for_db
 puts "..Parsed stories successfully"
 
-prices_input = :auto
-#prices_input = :manual #Enter the prices directly into the Prices file.
+#prices_input = :auto
+prices_input = :manual #Enter the prices directly into the Prices file.
 
 if prices_input == :auto
 	begin
@@ -89,10 +91,16 @@ Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, worl
 
 Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
+
+add_to_db(commodity_news_db)
+
+
 b = Time.now
 
 
+
 puts "Runtime: #{(b-a).round(2)} sec"
+exit
 
 
 
