@@ -92,13 +92,19 @@ Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, worl
 Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
 
-add_to_db(commodity_news_db)
+#begin
+	add_to_db(commodity_news_db)
+	puts "..Stories successfully added to database"
+#rescue
+	#puts "DATABASE ERROR: Failed to add stories to database"
+	#puts "..Not fatal: continuing..."
+#end
 
 
 b = Time.now
 
 
-
+puts "Program complete."
 puts "Runtime: #{(b-a).round(2)} sec"
 exit
 
