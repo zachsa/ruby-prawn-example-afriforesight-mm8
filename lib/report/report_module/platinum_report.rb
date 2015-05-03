@@ -2,6 +2,7 @@ require_relative 'base.rb'
   
 class Report::PlatinumReport < Report::Base
   def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options = {:margin => [5,5], :page_size => 'A4'})
+    puts '..Drawing Platinum Report'
     super(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options)
     
     #Reassigns breaks
@@ -10,6 +11,8 @@ class Report::PlatinumReport < Report::Base
     format_prices
     puts "..Prices loaded successfully"
     generate_report('Platinum Report')
+    
+    puts '..Platinum Report done'
   end
   
   
