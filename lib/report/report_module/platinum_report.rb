@@ -111,11 +111,11 @@ class Report::PlatinumReport < Report::Base
 			for i in 0...arr.length do
 				wrd = arr[i]
 				if wrd.upcase == "SIDE" || wrd.upcase == "FLAT"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='000000'> : </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='000000'> : </color></font>"
 				elsif wrd.upcase == "DOWN"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='D45A2A'> = </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='D45A2A'> = </color></font>"
 				elsif wrd.upcase == "UP"
-					arr[i] = "<font name='symbols' size='7.5'><color rgb='74B743'> &lt; </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='74B743'> &lt; </color></font>"
 				end
 			end
 			p = arr.join " "
