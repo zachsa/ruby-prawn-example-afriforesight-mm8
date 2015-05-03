@@ -19,11 +19,11 @@ class Report::PlatinumReport < Report::Base
   def header
     #Set parameters for the heading
     title_options = {:at => [0, 819], :size => 14, :style => :bold}
-    caption_options = {:at => [0, 807], size: 8}
+    caption_options = {:at => [0, 806], size: 8}
     date_text_options = {:at => [182, 819], :size => 8, :style => :bold}
     
-    global_section_heading_options = {:at => [0, 781], :size => 10, :style => :bold}
-    general_section_heading_options = {:at => [@general_left, 781], :size => 10, :style => :bold}
+    global_section_heading_options = {:at => [0, 781], :size => 13, :style => :bold}
+    general_section_heading_options = {:at => [@general_left, 781], :size => 13, :style => :bold}
     image_heading_options = {:at => [484, 832], :width => 100}
     header_line_y = 778
     
@@ -37,7 +37,7 @@ class Report::PlatinumReport < Report::Base
     global_section_bottom_line = 512
     content_y = 775
     
-    global_section = self.extend(Report).global_section_template(global_section_height, global_section_bottom_line, content_y)
+    global_section = self.extend(Report).global_section_template(global_section_height, global_section_bottom_line, content_y, 3)
   end
   
   

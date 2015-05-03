@@ -36,7 +36,7 @@ class Report::GeneralReport < Report::Base
     global_section_bottom_line = 660
     content_y = 785
     
-    global_section_template(global_section_height, global_section_bottom_line, content_y)
+    global_section_template(global_section_height, global_section_bottom_line, content_y, 0)
   end
   
   

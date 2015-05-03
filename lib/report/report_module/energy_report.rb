@@ -17,13 +17,13 @@ class Report::EnergyReport < Report::Base
   
   def header
     #Set parameters for the heading
-    title_options = {:at => [0, 819], :size => 13, :style => :bold}
-    caption_options = {:at => [0, 809], size: 8}
-    date_text_options = {:at => [172, 819], :size => 8, :style => :bold}
+    title_options = {:at => [0, 816], :size => 13, :style => :bold}
+    caption_options = {:at => [0, 795], size: 9.5}
+    date_text_options = {:at => [172, 816], :size => 8, :style => :bold}
     
-    global_section_heading_options = {:at => [0, 773], :size => 10, :style => :bold}
-    general_section_heading_options = {:at => [@general_left, 773], :size => 10, :style => :bold}
-    image_heading_options = {:at => [510, 832], :width => 80}
+    global_section_heading_options = {:at => [0, 773], :size => 13, :style => :bold}
+    general_section_heading_options = {:at => [@general_left, 773], :size => 13, :style => :bold}
+    image_heading_options = {:at => [480, 832], :width => 100}
     header_line_y = 770
     
     header = self.header_template(title_options, caption_options, date_text_options, global_section_heading_options, general_section_heading_options, image_heading_options, header_line_y)
@@ -34,7 +34,7 @@ class Report::EnergyReport < Report::Base
     global_section_bottom_line = 480
     content_y = 767
     
-    global_section = global_section_template(global_section_height, global_section_bottom_line, content_y)
+    global_section = global_section_template(global_section_height, global_section_bottom_line, content_y, 3)
   end
   
   def main_content

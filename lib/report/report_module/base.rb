@@ -104,10 +104,11 @@ class Report::Base < Prawn::Document
   
   
   
-  def global_section_template(global_section_height, global_section_bottom_line, content_y)
+  def global_section_template(global_section_height, global_section_bottom_line, content_y, global_leading)
 		
     #World Overview
 		bounding_box([0, content_y], :width => (bounds.right/2 - 3), :height => global_section_height) do
+      move_down global_leading
       for i in 0...@world_growth.length do
         text(@world_growth[i], @world_overview_format)
 			  move_down 2.5
@@ -116,7 +117,8 @@ class Report::Base < Prawn::Document
     
 		#General Stories
 		bounding_box([@general_left, content_y], :width => (bounds.right/2 - 9), :height => global_section_height) do
-			@general_stories.each do |s|
+			move_down global_leading
+      @general_stories.each do |s|
 				indent(1) do
           text(s, @general_stories_format)
           move_down 0
