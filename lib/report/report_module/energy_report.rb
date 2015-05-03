@@ -60,7 +60,6 @@ class Report::EnergyReport < Report::Base
 			
       #Coal	
 			position = check_position(position, '3')
-      puts position
 			col = 2 if position['3'] - position['2'] > 0 - price_point_size		
       draw_price_point(col, @prices, :coal, price_point_size, vertical_padding)			
 			move_down @after_price_break

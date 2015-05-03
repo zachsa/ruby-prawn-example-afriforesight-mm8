@@ -1,6 +1,5 @@
 require 'docx'
 require 'sanitize'
-require 'ap'
 
 class StoriesJSON
 	attr_accessor :content, :content_for_db

@@ -41,7 +41,7 @@ class Report::Base < Prawn::Document
     
     #General section formatting
   	@general_stories_format = {:size => @general_stories_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2}
-  	@world_overview_format = {:size => @world_growth_font_size, :align => :justify}
+  	@world_overview_format = {:size => @world_growth_font_size, :align => :justify, :inline_format => true}
     
     #Main content formatting
   	@stories_format = {:size => @content_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2}
@@ -105,12 +105,15 @@ class Report::Base < Prawn::Document
   
   
   def global_section_template(global_section_height, global_section_bottom_line, content_y)
-		#World Overview
+		
+    #World Overview
 		bounding_box([0, content_y], :width => (bounds.right/2 - 3), :height => global_section_height) do
-			text(@world_growth, @world_overview_format)
-			move_down 2
-			text(@prices[:baltic], size: 6.9, :inline_format => true, :style => :bold)
+      for i in 0...@world_growth.length do
+        text(@world_growth[i], @world_overview_format)
+			  move_down 2.5
+      end
 		end
+    
 		#General Stories
 		bounding_box([@general_left, content_y], :width => (bounds.right/2 - 9), :height => global_section_height) do
 			@general_stories.each do |s|
@@ -120,11 +123,13 @@ class Report::Base < Prawn::Document
         end
 			end
 		end
+    
     stroke_color @brown
 		stroke do
 			horizontal_line 0, bounds.right, :at => global_section_bottom_line
 			self.line_width = 0.05
 		end
+    
     fill_color '000000'
   end
   

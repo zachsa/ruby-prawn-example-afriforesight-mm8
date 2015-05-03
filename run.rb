@@ -4,9 +4,10 @@ this_file = __FILE__
 BASEDIR = File.expand_path(File.join(this_file, '..'))
 puts "..Base Directory defined as: #{BASEDIR}"
 
-
+require 'ap'
 require_relative "lib/commodity/stories.rb"
 require_relative "lib/prices/prices.rb"
+require_relative 'lib/worldgrowth/worldgrowth.rb'
 require_relative "lib/report/mm8.rb"
 require_relative "lib/helpers.rb"
 require_relative "lib/db/db_api.rb"
@@ -51,13 +52,12 @@ elsif prices_input == :manual
 end
 
 
-
-
-
-world_growth = "Stock markets were generally down last week on fears of the US Fed lifting interest rates soon, but turned upwards late Fri when the Fed chair said rate increases will be much softer than in previous cycles. Stocks were also supported by lower oil on less anxiety on the new fighting in the Middle-East.
-Chinese stocks reached record highs today in Asia when the Chinese governor promised much more stimulus (some leading indicators show that China may be growing only at 3% - 4%). Mining stocks are down in Asia.
-Oil calmed down over the weekend on signs that Iran may indeed make a nuclear deal with the West this week to greatly lift their oil sales. The US dollar seems ready to rebound again as it lifted slightly.
-Commodities where generally down on expectations of a reviving dollar and news of low Chinese demand growth. Lower oil and lower Chinese interest rates may lead to a better week for mined commodities."
+#Put a word doc in /lib/worldgrowth
+  #NO HEADING
+  #PARAGRAPHS SEPERATED 
+  
+world_growth = WorldGrowth.new
+world_growth = world_growth.content
 
 
 
@@ -65,19 +65,19 @@ date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
 
 
 ########## General Report ##########
-world_growth_font_size_general = 8
+world_growth_font_size_general = 8.3
 general_stories_font_size_general = 7.7
 content_font_size_general = 7.91
 
 
 ########## ENERGY ##########
-world_growth_font_size_energy = 13.3
-general_stories_font_size_energy = 12.2
+world_growth_font_size_energy = 12.9
+general_stories_font_size_energy = 12.9
 content_font_size_energy = 11.9
 
 
 ########## PLATINUM ##########
-world_growth_font_size_platinum = 13
+world_growth_font_size_platinum = 12.6
 general_stories_font_size_platinum = 12
 content_font_size_platinum = 11.6
 
@@ -86,9 +86,7 @@ content_font_size_platinum = 11.6
 
 
 Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
-
 Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
-
 Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
 
