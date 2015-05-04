@@ -61,25 +61,25 @@ world_growth = world_growth.content
 
 
 
-date_period = "7 DAY PERIOD OF 23 - 30 MARCH 2015"
+date_period = "14 DAY PERIOD OF 20 April - 4 MARCH 2015"
 
 
 ########## General Report ##########
-world_growth_font_size_general = 8.3
-general_stories_font_size_general = 7.7
-content_font_size_general = 7.91
+world_growth_font_size_general = 7.5
+general_stories_font_size_general = 8.265
+content_font_size_general = 5.33
 
 
 ########## ENERGY ##########
-world_growth_font_size_energy = 12.9
+world_growth_font_size_energy = 11.7
 general_stories_font_size_energy = 12.9
-content_font_size_energy = 11.9
+content_font_size_energy = 8.1
 
 
 ########## PLATINUM ##########
-world_growth_font_size_platinum = 12.6
-general_stories_font_size_platinum = 12
-content_font_size_platinum = 11.6
+world_growth_font_size_platinum = 11.3
+general_stories_font_size_platinum = 12.35
+content_font_size_platinum = 8.6
 
 
 
