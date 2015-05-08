@@ -33,7 +33,7 @@ class StoriesJSON
 		end
 		
 
-
+		content = remove_empty_stories(content)
 		content = split_stories_by_country(content)
 		@content_for_db = Marshal.load(Marshal.dump(content))
 
@@ -71,6 +71,19 @@ class StoriesJSON
 	end
 	
 	
+
+	def remove_empty_stories(content)
+		content.clone.each do |section,stories|
+			for i in 0...stories.length do
+				if stories[i].length < 25
+					content[section].delete_at(i)
+				end
+			end
+		end
+		content
+	end
+
+
 	def split_stories_by_country(content)
 		#content needs to be clean data at this point
 		

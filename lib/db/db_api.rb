@@ -15,7 +15,7 @@ class DB
 
   def add_to_mysql_db
     begin
-      db = MySQL2::Client.new(:host => @host, :username => @username, :password => @password, :database => @database)
+      db = Mysql2::Client.new(:host => @host, :username => @username, :password => @password, :database => @database)
       success = true
     rescue
       puts "ERROR: Unable to connect to MySQL database"
@@ -31,11 +31,10 @@ class DB
     				commodity = "Oil & Gas"
     			end
 		
-    			date = Date.strptime("2015-03-09")
+    			date = Date.strptime("2014-07-21") 
 		
     			country = c[0]
     			story = c[1]
-
 		
     			sql = "REPLACE INTO mm8 SET
     					story_date = \"#{date}\",
