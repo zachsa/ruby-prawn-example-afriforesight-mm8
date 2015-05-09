@@ -132,9 +132,6 @@ class StoriesJSON
 	def split_content(content)
 		mm8 = {}
 	
-
-
-		
 		#General stories
 		begin
 			general_stories = content[/GENERAL_STORIES.*IRON_STORIES/].gsub('IRON_STORIES', '').gsub('GENERAL_STORIES', '')
@@ -144,8 +141,6 @@ class StoriesJSON
 			puts 'Unable to splice general stories'
 			exit
 		end
-		
-		
 		
 		
 		#Bulk Metals
