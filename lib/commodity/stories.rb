@@ -11,6 +11,7 @@ class StoriesJSON
 			content = Docx::Document.open(file)
 			content = content.to_html
 			content = content.gsub("–", "-")			
+
 		rescue
 			puts "Problem reading the docx file: Class StoriesJSON, initialize"
 			exit
@@ -174,6 +175,3 @@ class StoriesJSON
 	end
 
 end
-
-
-
