@@ -9,7 +9,7 @@ class StoriesJSON
 		
 		begin
 			content = Docx::Document.open(file)
-			content = content.to_html			
+			content = content.to_html
 			content = content.gsub("–", "-")			
 		rescue
 			puts "Problem reading the docx file: Class StoriesJSON, initialize"
@@ -39,14 +39,9 @@ class StoriesJSON
 
 		content = make_country_bold(content)		
 		@content = join_formatted_data(content)
-		
-		
 	end
 	
-	
-	
-	
-	
+
 	
 	def join_formatted_data(arr)
 		arr.clone.each do |commodity, stories|
@@ -56,8 +51,7 @@ class StoriesJSON
 		end
 	end
 	
-	
-	
+
 	
 	
 	def make_country_bold(arr)
@@ -146,15 +140,17 @@ class StoriesJSON
       :OIL_GAS_STORIES => :oil_gas,
       :URANIUM_STORIES => :uranium
     }
+    
+    #NOTE: This method assumes that there are no underscores in normal text
+    sections = content.scan(/\b\w+?_\w+\b/)
 
-    sections = content.scan(/\w.*_.*\b/)
 
     mm8 = {}
     for i in 0...sections.length do
       begin
         mm8[sections[i].to_sym] = content[/#{sections[i]}.*#{sections[i+1]}/m].gsub(sections[i], '')
         mm8[sections[i].to_sym].gsub!(sections[i + 1], '') if i < sections.length - 1
-        mm8[sections[i].to_sym] = mm8[sections[i].to_sym].split("\n")
+        mm8[sections[i].to_sym] = mm8[sections[i].to_sym].split("\\n")
       rescue
         puts "Unable to spice stories (sorry it's such a high level error for now)"
         exit
@@ -173,7 +169,7 @@ class StoriesJSON
       new_key = possible_sections[k]
       mm8[new_key] = mm8.delete(k)
     end
-		
+    
 		mm8
 	end
 
