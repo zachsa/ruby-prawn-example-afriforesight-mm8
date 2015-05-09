@@ -130,192 +130,50 @@ class StoriesJSON
 	
 	
 	def split_content(content)
-		mm8 = {}
-	
-		#General stories
-		begin
-			general_stories = content[/GENERAL_STORIES.*IRON_STORIES/].gsub('IRON_STORIES', '').gsub('GENERAL_STORIES', '')
-			general_stories = general_stories.split('\n')
-			mm8[:general_stories] = general_stories
-		rescue
-			puts 'Unable to splice general stories'
-			exit
-		end
-		
-		
-		#Bulk Metals
-		
-		
-		#Iron ore stories
-		begin
-			iron_ore = content[/IRON_STORIES.*MANGANESE_STORIES/].gsub('IRON_STORIES', '').gsub('MANGANESE_STORIES', '')
-			iron_ore = iron_ore.split('\n')
+    
+    possible_sections = {
+      :GENERAL_STORIES => :general_stories,
+      :IRON_STORIES => :iron_ore,
+      :MANGANESE_STORIES => :manganese_ore,
+      :CHROME_STORIES => :chrome_ore,
+      :GOLD_STORIES => :gold,
+      :PGM_STORIES => :pgm,
+      :DIAMONDS_STORIES => :diamonds,
+      :COPPER_STORIES => :copper,
+      :ALUMINIUM_STORIES => :aluminium,
+      :NICKEL_STORIES => :nickel,
+      :COAL_STORIES => :coal,
+      :OIL_GAS_STORIES => :oil_gas,
+      :URANIUM_STORIES => :uranium
+    }
 
-			mm8[:iron_ore] = iron_ore
-		rescue
-			puts 'Unable to splice iron ore stories'
-			exit
-		end
-		
-		
-		
-		#Manganese ore stories
-		begin
-			manganese_ore = content[/MANGANESE_STORIES.*CHROME_STORIES/].gsub('MANGANESE_STORIES', '').gsub('CHROME_STORIES', '')
-			manganese_ore = manganese_ore.split('\n')
+    sections = content.scan(/\w.*_.*\b/)
 
-			mm8[:manganese_ore] = manganese_ore
-		rescue
-			puts 'Unable to splice manganese stories'
-			exit
-		end
+    mm8 = {}
+    for i in 0...sections.length do
+      begin
+        mm8[sections[i].to_sym] = content[/#{sections[i]}.*#{sections[i+1]}/m].gsub(sections[i], '')
+        mm8[sections[i].to_sym].gsub!(sections[i + 1], '') if i < sections.length - 1
+        mm8[sections[i].to_sym] = mm8[sections[i].to_sym].split("\n")
+      rescue
+        puts "Unable to spice stories (sorry it's such a high level error for now)"
+        exit
+      end
+    end
 
+    mm8.clone.each do |comm,arr|
+    	arr.each do |story|
+    		if story.length < 10
+    			mm8[comm].delete(story)
+    		end
+    	end
+    end
 
-
-		#Chrome ore stories
-		begin
-			chrome_ore = content[/CHROME_STORIES.*GOLD_STORIES/].gsub('CHROME_STORIES', '').gsub('GOLD_STORIES', '')
-			chrome_ore = chrome_ore.split('\n')
-
-			mm8[:chrome_ore] = chrome_ore
-		rescue
-			puts 'Unable to splice chrome stories'
-			exit
-		end
+    mm8.clone.each do |k, v|
+      new_key = possible_sections[k]
+      mm8[new_key] = mm8.delete(k)
+    end
 		
-		
-		
-		#Precious Metals
-
-
-
-		#Gold stories
-		begin
-			gold = content[/GOLD_STORIES.*PGM_STORIES/].gsub('GOLD_STORIES', '').gsub('PGM_STORIES', '')
-			gold = gold.split('\n')
-
-			mm8[:gold] = gold
-		rescue
-			puts 'Unable to splice gold stories'
-			exit
-		end
-		
-		
-		
-		#PGM stories
-		begin
-			pgm = content[/PGM_STORIES.*DIAMONDS_STORIES/].gsub('PGM_STORIES', '').gsub('DIAMONDS_STORIES', '')
-			pgm = pgm.split('\n')
-
-			mm8[:pgm] = pgm
-		rescue
-			puts "Unable to splice PGM stories"
-			exit
-		end
-
-
-		#Diamond stories
-		begin
-			diamonds = content[/DIAMONDS_STORIES.*COPPER_STORIES/].gsub('DIAMONDS_STORIES', '').gsub('COPPER_STORIES', '')
-			diamonds = diamonds.split('\n')
-
-			mm8[:diamonds] = diamonds
-		rescue
-			puts 'Unable to splice diamond stories'
-			exit
-		end
-		
-		
-		
-		#Base Metals
-		
-		
-		
-		#Copper stories	
-		begin
-			copper = content[/COPPER_STORIES.*ALUMINIUM_STORIES/].gsub('COPPER_STORIES', '').gsub('ALUMINIUM_STORIES', '')
-			copper = copper.split('\n')
-
-			mm8[:copper] = copper
-		rescue
-			puts "Unable to splice copper stories"
-			exit
-		end
-
-
-		#Aluminium stories
-		begin
-			aluminium = content[/ALUMINIUM_STORIES.*NICKEL_STORIES/].gsub('ALUMINIUM_STORIES', '').gsub('NICKEL_STORIES', '')
-			aluminium = aluminium.split('\n')
-
-			mm8[:aluminium] = aluminium
-		rescue
-			puts "Unable to splice aluminium stories"
-			exit
-		end
-
-
-		#Nickel stories
-		begin
-			nickel = content[/NICKEL_STORIES.*COAL_STORIES/].gsub('NICKEL_STORIES', '').gsub('COAL_STORIES', '')
-			nickel = nickel.split('\n')
-
-			mm8[:nickel] = nickel
-		rescue
-			puts "Unable to splice nickel stories"
-			exit
-		end
-		
-		
-		
-		#Energy Commodities
-		
-		
-		
-		#Coal stories
-		begin
-			coal = content[/COAL_STORIES.*OIL_GAS_STORIES/].gsub('COAL_STORIES', '').gsub('OIL_GAS_STORIES', '')
-			coal = coal.split('\n')
-
-			mm8[:coal] = coal		
-		rescue
-			puts "Unable to splice coal stories"
-			exit
-		end
-		
-		
-		#Oil & Gas
-		begin
-			oil_gas = content[/OIL_GAS_STORIES.*URANIUM_STORIES/].gsub('OIL_GAS_STORIES', '').gsub('URANIUM_STORIES', '')
-			oil_gas = oil_gas.split('\n')
-
-			mm8[:oil_gas] = oil_gas
-		rescue
-			puts "Unable to splice oil & gas stories"
-			exit
-		end
-		
-		
-		#Uranium
-		begin
-			uranium = content[/URANIUM_STORIES.*/].gsub('URANIUM_STORIES', '')
-			uranium = uranium.split('\n')
-
-			mm8[:uranium] = uranium
-		rescue
-			puts "Unable to splice uranium stories"
-			exit
-		end
-		
-		
-		
-		mm8.clone.each do |comm,arr|
-			arr.each do |story|
-				if story.length < 10
-					mm8[comm].delete(story)
-				end
-			end
-		end
 		mm8
 	end
 
