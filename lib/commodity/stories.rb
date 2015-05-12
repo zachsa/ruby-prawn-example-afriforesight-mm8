@@ -39,7 +39,7 @@ class StoriesJSON
 		@content_for_db = Marshal.load(Marshal.dump(content))
 
 		content = make_country_bold(content)		
-		@content = join_formatted_data(content)
+		@content = join_formatted_data(content)    
 	end
 	
 
@@ -69,6 +69,7 @@ class StoriesJSON
 
 	def remove_empty_stories(content)
 		content.clone.each do |section,stories|
+      puts section
 			for i in 0...stories.length do
 				if stories[i].length < 25
 					content[section].delete_at(i)
