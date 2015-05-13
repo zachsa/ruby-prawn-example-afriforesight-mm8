@@ -31,7 +31,7 @@ class DB
     				commodity = "Oil & Gas"
     			end
 		
-    			date = Date.strptime("2014-07-21") 
+    			date = Date.strptime("2014-02-03") 
 		
     			country = c[0]
     			story = c[1]
