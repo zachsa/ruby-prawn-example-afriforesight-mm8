@@ -6,6 +6,11 @@ class StoriesJSON
 
 
 	def initialize(file)
+    
+    multi_line_break = /\\n\s+\\n/
+    single_line_break = "\\n"    
+    story_break = multi_line_break
+    #story_break = single_line_break
 		
 		begin
 			content = Docx::Document.open(file)
@@ -17,7 +22,6 @@ class StoriesJSON
 			exit
 		end
 		
-		
 		begin
 			content = Sanitize.fragment(content)
 		rescue
@@ -25,21 +29,22 @@ class StoriesJSON
 			exit
 		end
 		
-		
 		begin
-			content = split_content(content)
+			content = split_content(content, story_break)
 		rescue
 			puts "Problem splicing stories with Regex"
 			exit
 		end
-		
 
 		content = remove_empty_stories(content)
+    content = remove_double_spaces_and_newlines(content)
 		content = split_stories_by_country(content)
+
 		@content_for_db = Marshal.load(Marshal.dump(content))
 
 		content = make_country_bold(content)		
 		@content = join_formatted_data(content)    
+    
 	end
 	
 
@@ -65,7 +70,7 @@ class StoriesJSON
 		arr
 	end
 	
-	
+
 
 	def remove_empty_stories(content)
     new_content = {}
@@ -126,10 +131,17 @@ class StoriesJSON
 		content
 	end
 	
+	def remove_double_spaces_and_newlines(content)
+    content.each do |section, stories|
+      stories.each do |story|
+        story.gsub!("\\n", '')
+        story.gsub!(/[ ]{2,}/, ' ')
+      end
+    end
+  end
 	
 	
-	
-	def split_content(content)
+	def split_content(content, story_break)
     
     possible_sections = {
       :GENERAL_STORIES => :general_stories,
@@ -149,14 +161,14 @@ class StoriesJSON
     
     #NOTE: This method assumes that there are no underscores in normal text
     sections = content.scan(/\b\w+?_\w+\b/)
-
+    
 
     mm8 = {}
     for i in 0...sections.length do
       begin
         mm8[sections[i].to_sym] = content[/#{sections[i]}.*#{sections[i+1]}/m].gsub(sections[i], '')
         mm8[sections[i].to_sym].gsub!(sections[i + 1], '') if i < sections.length - 1
-        mm8[sections[i].to_sym] = mm8[sections[i].to_sym].split("\\n")
+        mm8[sections[i].to_sym] = mm8[sections[i].to_sym].split(story_break)
       rescue
         puts "Unable to spice stories (sorry it's such a high level error for now)"
         exit
