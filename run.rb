@@ -89,9 +89,9 @@ content_font_size_platinum = 8.6
 
 
 puts "..Initializing database"
-db_connection = DB.new('localhost', 'root', 'pfnafn1', 'afriforesightresearch', commodity_news_db)
+#db_connection = DB.new('localhost', 'root', 'pfnafn1', 'afriforesightresearch', commodity_news_db)
 puts "..Inserting into database"
-db_connection.add_to_mysql_db
+#db_connection.add_to_mysql_db
 puts "Done"
 
 b = Time.now

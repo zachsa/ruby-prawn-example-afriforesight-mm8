@@ -68,15 +68,19 @@ class StoriesJSON
 	
 
 	def remove_empty_stories(content)
-		content.clone.each do |section,stories|
-      puts section
+    new_content = {}
+    
+		content.each do |section,stories|
+      new_content[section] = []
+      
 			for i in 0...stories.length do
-				if stories[i].length < 25
-					content[section].delete_at(i)
+				unless stories[i].length < 25
+          new_content[section] << stories[i]
 				end
 			end
 		end
-		content
+    
+		new_content
 	end
 
 
