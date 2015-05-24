@@ -1,63 +1,56 @@
 a = Time.now
+
 #Sets an absolute path for wherever the program is run from
 this_file = __FILE__
 BASEDIR = File.expand_path(File.join(this_file, '..'))
-puts "..Base Directory defined as: #{BASEDIR}"
 
+#Required Gems
 require 'ap'
+require 'docx'
+require 'sanitize'
+require 'Mysql2'
+require 'os'
+require 'win32ole' if OS.windows?
+require 'date'
+require 'roo'
+require 'prawn'
+
+#Docx Parsing Modules
 require_relative "lib/commodity/stories.rb"
-require_relative "lib/prices/prices.rb"
 require_relative 'lib/worldgrowth/worldgrowth.rb'
-require_relative "lib/report/mm8.rb"
-require_relative "lib/helpers.rb"
+
+#Prices Module
+require_relative "lib/prices/prices.rb"
+require_relative 'lib/prices/prices_module.rb'
+
+#Database Module
 require_relative "lib/db/db_api.rb"
-puts "..All files loaded successfully"
 
-mm8_final_doc = find_word_file
-puts "..Word doc opened successfully"
+#Report Generator Module
+require_relative 'lib/prawn/base.rb'
+require_relative 'lib/prawn/general_mining_report.rb'
+require_relative 'lib/prawn/energy_report.rb'
+require_relative 'lib/prawn/platinum_report.rb'
 
 
-mm8_stories = StoriesJSON.new mm8_final_doc
+
+
+mm8_stories = StoriesJSON.new
 commodity_news = mm8_stories.content
 commodity_news_db = mm8_stories.content_for_db
-puts "..Parsed stories successfully"
+
+world_growth = WorldGrowth.new #Put a word doc in /lib/worldgrowth, NO HEADING, PARAGRAPHS SEPERATED
+world_growth = world_growth.content
 
 #prices_input = :auto
-prices_input = :manual #Enter the prices directly into the Prices file.
-
-if prices_input == :auto
-	begin
-		prices_xlsx = find_excel_file
-	rescue
-		puts "ERROR"
-		puts "Cannot locate Excel fiel"
-		exit
-	end
-
-	begin
-		prices = Prices.new prices_xlsx
-		prices = prices.price_points
-	rescue
-		puts "ERROR"
-		puts "Cannot automatically generate price points. Try entering them manually instead."
-		exit
-	end
-elsif prices_input == :manual
-	begin	
-		prices = price_points_manual
-	rescue
-		puts "ERROR"
-		puts "Problem using manual price points, check syntax"
-	end
-end
+prices_input = :manual
+prices = Prices.new(prices_input)
+prices = prices.price_points
 
 
-#Put a word doc in /lib/worldgrowth
-  #NO HEADING
-  #PARAGRAPHS SEPERATED 
-  
-world_growth = WorldGrowth.new
-world_growth = world_growth.content
+
+
+
 
 
 
@@ -65,8 +58,8 @@ date_period = "14 DAY PERIOD OF 20 April - 4 MARCH 2015"
 
 
 ########## General Report ##########
-world_growth_font_size_general = 7.5
-general_stories_font_size_general = 8.265
+world_growth_font_size_general = 5
+general_stories_font_size_general = 5
 content_font_size_general = 5.33
 
 
@@ -83,9 +76,9 @@ content_font_size_platinum = 8.6
 
 
 
-#Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
-#Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
-#Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
+Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
+Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
+Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
 
 puts "..Initializing database"

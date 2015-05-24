@@ -1,49 +1,66 @@
-require 'date'
-require 'roo'
-
-require_relative 'prices_module.rb'
-
-
-
-def price_points_manual
-	price_points = {
-
-		:baltic => "BALTIC DRY – Down 1.7% on Friday from Friday 17 April but Capesize rates up 7.0%",
-		:iron_ore => "IRON ORE Fri 1 May Qingdao, China close: $56.2/t UP 10.3% from Fri 17 Apr close",
-		:manganese => "MANGANESE Fri 1 May close: $2.33/dmtu ($88.5/t) DOWN 3.7% from Fri 17 Apr close",
-		:chrome => "CHROME ORE Fri 1 May South Africa close: $159/t DOWN 0.9% from Fri 17 Apr close",
-		:gold => "GOLD Today’s afternoon price in Asia: $1 184/oz DOWN 1.7% from Mon morning 20 Apr",
-		:platinum => "PLATINUM Today’s afternoon price in Asia: $1 134/oz DOWN 2.9% from Mon morning 20 Apr",
-		:palladium => "PALLADIUM Today’s afternoon price in Asia: $775.1/oz DOWN 1.1% from Mon morning 20 Apr",
-		:diamonds => "DIAMONDS Overall polished price index Fri 1 May close: 134 DOWN 2.2% from Fri 17 Apr close",
-		:copper => "COPPER Today’s afternoon price in Asia: $6 398/t UP 1.9% from Mon morning 20 Apr",
-		:nickel => "NICKEL Today’s afternoon price in Asia: $13 737/t UP 8.1% from Mon morning 20 Apr",
-		:aluminium => "ALUMINIUM Today’s afternoon price in Asia: $1 858/t UP 4.6% from Mon morning 20 Apr",
-		:coal => "COAL Richards Bay Thermal Coal Fri 1 May close: $63.9/t UP 8.1% from Fri 17 Apr close",
-		:oil => "OIL Today’s afternoon price in Asia: $66.3/b up 3.3% from Mon morning 20 Apr",
-		:gas => "GAS Henry Hub Fri 1 May close: $2.67/mBtu up 1.2% from Fri 17 Apr close",
-		:uranium => "URANIUM U3O8 Fri 1 May close: $36.5/lb down 6.4% from Fri 17 Apr close"
-	}
-end
-
-
-
-
-
 class Prices
-	attr_accessor :price_points, :mon_new
+	attr_accessor :mon_new, :price_points
+
+	def initialize(input_method)
+		if input_method == :auto
+			auto_generate_price_points
+		else
+			manual_generate_price_points
+		end
+	end
+
+	def price_points_manual
+		@price_points = {
+
+			:baltic => "BALTIC DRY – Down 1.7% on Friday from Friday 17 April but Capesize rates up 7.0%",
+			:iron_ore => "IRON ORE Fri 1 May Qingdao, China close: $56.2/t UP 10.3% from Fri 17 Apr close",
+			:manganese => "MANGANESE Fri 1 May close: $2.33/dmtu ($88.5/t) DOWN 3.7% from Fri 17 Apr close",
+			:chrome => "CHROME ORE Fri 1 May South Africa close: $159/t DOWN 0.9% from Fri 17 Apr close",
+			:gold => "GOLD Today’s afternoon price in Asia: $1 184/oz DOWN 1.7% from Mon morning 20 Apr",
+			:platinum => "PLATINUM Today’s afternoon price in Asia: $1 134/oz DOWN 2.9% from Mon morning 20 Apr",
+			:palladium => "PALLADIUM Today’s afternoon price in Asia: $775.1/oz DOWN 1.1% from Mon morning 20 Apr",
+			:diamonds => "DIAMONDS Overall polished price index Fri 1 May close: 134 DOWN 2.2% from Fri 17 Apr close",
+			:copper => "COPPER Today’s afternoon price in Asia: $6 398/t UP 1.9% from Mon morning 20 Apr",
+			:nickel => "NICKEL Today’s afternoon price in Asia: $13 737/t UP 8.1% from Mon morning 20 Apr",
+			:aluminium => "ALUMINIUM Today’s afternoon price in Asia: $1 858/t UP 4.6% from Mon morning 20 Apr",
+			:coal => "COAL Richards Bay Thermal Coal Fri 1 May close: $63.9/t UP 8.1% from Fri 17 Apr close",
+			:oil => "OIL Today’s afternoon price in Asia: $66.3/b up 3.3% from Mon morning 20 Apr",
+			:gas => "GAS Henry Hub Fri 1 May close: $2.67/mBtu up 1.2% from Fri 17 Apr close",
+			:uranium => "URANIUM U3O8 Fri 1 May close: $36.5/lb down 6.4% from Fri 17 Apr close"
+		}
+	end
 	
+	def find_excel_file
+		txt = ""
+		Dir.entries(BASEDIR).each do |i|
+			txt = i if i[/xlsx/]
+		end
+		txt
+	end
 	
-		
-	def initialize(filename)
-		
+	def manual_generate_price_points
+		begin	
+			prices = price_points_manual
+		rescue
+			puts "ERROR: Problem using manual price points, check syntax"
+		end
+	end
+
+	def auto_generate_price_points
+		begin
+			prices_xlsx = find_excel_file
+		rescue
+			puts "ERROR: Cannot locate Excel file"
+			exit
+		end
+
 		begin
 			file = Roo::Excelx.new(filename)
 		rescue
 			puts "Could not locate an Excel Spreadsheet"
 			exit
 		end
-		
+
 		mon_new = Date.strptime(file.cell('G', 1))
 		mon_old = Date.strptime(file.cell('D', 1))
 		mon_new = PricesModule::convert_date(mon_new)
@@ -103,11 +120,8 @@ class Prices
 		end
 
 		prices[:manganese][:tonne] = PricesModule::latest_price_tonne(prices[:manganese][:new])
-		
-		
-		
-		
-		#Bulk Cargo and Shipping
+
+				#Bulk Cargo and Shipping
 
 		baltic = "BALTIC DRY - #{prices[:baltic_dry][:trend].downcase.capitalize} on Friday from previous Friday. Capesize rates #{prices[:baltic_dry_cape][:trend].downcase}."
 
@@ -139,9 +153,6 @@ class Prices
 		uranium = "URANIUM U3O8 #{fri_new[:full]} close: $#{PricesModule::check_rounding(prices[:uranium][:new].to_f.round(1))}/lb #{prices[:uranium][:trend]} from #{fri_old[:full]} close"
 		
 		
-		
-
-		
 		@price_points = {
 	
 			:baltic => baltic,
@@ -160,9 +171,6 @@ class Prices
 			:gas => gas,
 			:uranium => uranium
 		}
-    
 	end
-	
-	
-	
+
 end

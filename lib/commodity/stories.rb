@@ -1,11 +1,16 @@
-require 'docx'
-require 'sanitize'
-
 class StoriesJSON
 	attr_accessor :content, :content_for_db
 
+	def find_word_file
+		txt = ""
+		Dir.entries(BASEDIR).each do |i|
+			txt = i if i[/docx/]
+		end
+		txt
+	end
 
-	def initialize(file)
+	def initialize
+		file = find_word_file
     
     multi_line_break = /\\n\s+\\n/
     single_line_break = "\\n"    

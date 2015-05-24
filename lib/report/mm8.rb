@@ -1,5 +1,0 @@
-require 'prawn'
-require_relative 'helpers'
-require_relative 'report_module/general_mining_report.rb'
-require_relative 'report_module/energy_report.rb'
-require_relative 'report_module/platinum_report.rb'

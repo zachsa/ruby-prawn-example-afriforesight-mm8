@@ -191,8 +191,23 @@ class Report::Base < Prawn::Document
     end
   end
   
+  def draw_stories(section_break, stories_format, stories)
+    stories.each do |s|
+        indent(1) do
+          text(s, stories_format)
+          move_down 0
+      end
+    end
+    move_down section_break
+  end
   
-  
+  def heading(txt, main_heading_break, format)
+    fill_color "6E2009"
+    font 'Arial Narrow', :style => :bold_italic
+    text(txt, format)
+    font 'Arial Narrow', :style => :normal
+    main_heading_break  
+  end
   
   def draw_price_point(col, prices, comm, price_point_size, vertical_padding)  
     #Sets the margin depending on which column is being drawn

@@ -1,5 +1,3 @@
-require_relative 'base.rb'
-
 class Report::EnergyReport < Report::Base
   def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options = {:margin => [5,5], :page_size => 'A4'})
     puts '..Drawing Energy Report'
@@ -54,7 +52,7 @@ class Report::EnergyReport < Report::Base
 			col = 2 if position['2'] - position['1'] > 0	
 			draw_price_point(col, @prices, :gas, price_point_size, vertical_padding)
       move_down @after_price_break
-      draw_stories(self, @section_break, @stories_format, @oil_gas_stories)
+      draw_stories(@section_break, @stories_format, @oil_gas_stories)
       
      
  
@@ -64,7 +62,7 @@ class Report::EnergyReport < Report::Base
 			col = 2 if position['3'] - position['2'] > 0 - price_point_size		
       draw_price_point(col, @prices, :coal, price_point_size, vertical_padding)			
 			move_down @after_price_break
-      draw_stories(self, @section_break, @stories_format, @coal_stories)
+      draw_stories(@section_break, @stories_format, @coal_stories)
 
 			
       #Uranium	
@@ -72,7 +70,7 @@ class Report::EnergyReport < Report::Base
 			col = 2 if position['4'] - position['3'] > 0 - price_point_size	
 			draw_price_point(col, @prices, :uranium, price_point_size, vertical_padding)
 			move_down @after_price_break
-      draw_stories(self, @section_break, @stories_format, @uranium_stories)
+      draw_stories(@section_break, @stories_format, @uranium_stories)
 		end
 		
 		########## Middle Line ##########

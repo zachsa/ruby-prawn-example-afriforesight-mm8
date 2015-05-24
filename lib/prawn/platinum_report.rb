@@ -1,5 +1,3 @@
-require_relative 'base.rb'
-  
 class Report::PlatinumReport < Report::Base
   def initialize(world_growth, commodity_news, prices, date_period, world_growth_font_size, general_stories_font_size, content_font_size, default_prawn_options = {:margin => [5,5], :page_size => 'A4'})
     puts '..Drawing Platinum Report'
@@ -59,7 +57,7 @@ class Report::PlatinumReport < Report::Base
 			col = 2 if position['2'] - position['1'] > 0
 			draw_price_point(col, @prices, :palladium, price_point_size, vertical_padding)
       move_down @after_price_break
-			draw_stories(self, @section_break, @stories_format, @pgm_stories)
+			draw_stories(@section_break, @stories_format, @pgm_stories)
       
       
 			#Chrome ore
@@ -67,28 +65,28 @@ class Report::PlatinumReport < Report::Base
 			col = 2 if position['3'] - position['2'] > 0 - price_point_size	
       draw_price_point(col, @prices, :chrome, price_point_size, vertical_padding)
       move_down @after_price_break
-			draw_stories(self, @section_break, @stories_format, @chrome_ore_stories)
+			draw_stories(@section_break, @stories_format, @chrome_ore_stories)
       
 			#Copper
 			position = check_position(position, '4')
 			col = 2 if position['4'] - position['3'] > 0 - price_point_size			
       draw_price_point(col, @prices, :copper, price_point_size, vertical_padding)
       move_down @after_price_break
-			draw_stories(self, @section_break, @stories_format, @copper_stories)	
+			draw_stories(@section_break, @stories_format, @copper_stories)	
       
       #Gold	
       position = check_position(position, '5')
 			col = 2 if position['5'] - position['4'] > 0 - price_point_size	
       draw_price_point(col, @prices, :gold, price_point_size, vertical_padding)
       move_down @after_price_break
-			draw_stories(self, @section_break, @stories_format, @gold_stories)
+			draw_stories(@section_break, @stories_format, @gold_stories)
       
       #Nickel	
 			position = check_position(position, '6')
 			col = 2 if position['6'] - position['5'] > 0 - price_point_size	
 			draw_price_point(col, @prices, :nickel, price_point_size, vertical_padding)
       move_down @after_price_break
-			draw_stories(self, @section_break, @stories_format, @nickel_stories)
+			draw_stories(@section_break, @stories_format, @nickel_stories)
 		end
 		
 		########## Middle Line ##########

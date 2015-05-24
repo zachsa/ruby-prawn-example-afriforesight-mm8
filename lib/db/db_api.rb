@@ -1,9 +1,3 @@
-require 'Mysql2'
-require 'os'
-
-require 'win32ole' if OS.windows?
-
-
 class DB
   def initialize(host, username, password, database, data)
     @host = host

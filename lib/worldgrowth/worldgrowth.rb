@@ -1,6 +1,3 @@
-require 'docx'
-require 'sanitize'
-
 class WorldGrowth
   attr_accessor :content
   def initialize
