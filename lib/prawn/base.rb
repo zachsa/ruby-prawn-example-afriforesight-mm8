@@ -30,6 +30,7 @@ class Report::Base < Prawn::Document
     @world_growth_font_size = world_growth_font_size
     @general_stories_font_size = general_stories_font_size
     @content_font_size = content_font_size
+    @character_spacing = 0.1
     
     #Colours
     @black = '000000'
@@ -40,15 +41,18 @@ class Report::Base < Prawn::Document
     @side_arrow_color = '000000' #Used in prices module (just for reference)
     
     #General section formatting
-  	@general_stories_format = {:size => @general_stories_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2}
-  	@world_overview_format = {:size => @world_growth_font_size, :align => :justify, :inline_format => true}
+  	@general_stories_format = {:size => @general_stories_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2, :kerning => true, :character_spacing => @character_spacing}
+  	@world_overview_format = {:size => @world_growth_font_size, :align => :justify, :inline_format => true, :kerning => true}
     
     #Main content formatting
-  	@stories_format = {:size => @content_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2}
+  	@stories_format = {:size => @content_font_size, :align => :justify, :inline_format => true, :indent_paragraphs => -1, :leading => 0.2, :kerning => true, :character_spacing => @character_spacing}
     
     #Headings formats
-  	@main_content_heading_format = {:size => 9, :indent_paragraphs => 4}
-  	@sub_content_heading_format = {:size => 8, :indent_paragraphs => 4}
+  	@main_content_heading_format = {:size => 9, :indent_paragraphs => 4, :kerning => true, :character_spacing => @character_spacing}
+  	@sub_content_heading_format = {:size => 8, :indent_paragraphs => 4, :kerning => true, :character_spacing => @character_spacing}
+
+    #Prices Format
+    @prices_format = {:indent_paragraphs => 4, :inline_format => true, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     
     #Breaks formats
   	@main_heading_break = 2
@@ -227,8 +231,12 @@ class Report::Base < Prawn::Document
       end
       #Adds text on top of the box
       fill_color(@white)
+      stroke_color(@white)
   		move_down vertical_padding
-  		text(prices[comm], :indent_paragraphs => 4, :inline_format => true, :style => :bold)
+
+      #text_rendering_mode(:fill_stroke) do
+        text(prices[comm], @prices_format)
+      #end
       fill_color(@black)
     end
   end

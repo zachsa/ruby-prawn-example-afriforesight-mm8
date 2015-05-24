@@ -16,12 +16,12 @@ class Report::PlatinumReport < Report::Base
   
   def header
     #Set parameters for the heading
-    title_options = {:at => [0, 819], :size => 14, :style => :bold}
+    title_options = {:at => [0, 819], :size => 14, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     caption_options = {:at => [0, 806], size: 8}
-    date_text_options = {:at => [182, 819], :size => 8, :style => :bold}
+    date_text_options = {:at => [182, 819], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     
-    global_section_heading_options = {:at => [0, 781], :size => 13, :style => :bold}
-    general_section_heading_options = {:at => [@general_left, 781], :size => 13, :style => :bold}
+    global_section_heading_options = {:at => [0, 781], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
+    general_section_heading_options = {:at => [@general_left, 781], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     image_heading_options = {:at => [484, 832], :width => 100}
     header_line_y = 778
     
@@ -109,11 +109,11 @@ class Report::PlatinumReport < Report::Base
 			for i in 0...arr.length do
 				wrd = arr[i]
 				if wrd.upcase == "SIDE" || wrd.upcase == "FLAT"
-					arr[i] = "<font name='symbols' size='10'><color rgb='000000'> : </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='000000'>: </color></font>"
 				elsif wrd.upcase == "DOWN"
-					arr[i] = "<font name='symbols' size='10'><color rgb='D45A2A'> = </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='D45A2A'>= </color></font>"
 				elsif wrd.upcase == "UP"
-					arr[i] = "<font name='symbols' size='10'><color rgb='74B743'> &lt; </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='74B743'>&lt; </color></font>"
 				end
 			end
 			p = arr.join " "

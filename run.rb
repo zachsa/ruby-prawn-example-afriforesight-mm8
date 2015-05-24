@@ -37,7 +37,8 @@ require_relative 'lib/prawn/platinum_report.rb'
 
 mm8_stories = StoriesJSON.new
 commodity_news = mm8_stories.content
-commodity_news_db = mm8_stories.content_for_db
+commodity_news_db = mm8_stories.content_for_db #For now, I'm leaving the bolding in the stories as I can always take them away later
+
 
 world_growth = WorldGrowth.new #Put a word doc in /lib/worldgrowth, NO HEADING, PARAGRAPHS SEPERATED
 world_growth = world_growth.content
@@ -49,30 +50,27 @@ prices = prices.price_points
 
 
 
-
-
-
-
+# USER INPUT DATA
 
 date_period = "14 DAY PERIOD OF 20 April - 4 MARCH 2015"
 
 
-########## General Report ##########
-world_growth_font_size_general = 5
-general_stories_font_size_general = 5
-content_font_size_general = 5.33
+########## GENERAL Report ##########
+world_growth_font_size_general = 8
+general_stories_font_size_general = 5.3
+content_font_size_general = 6
 
 
 ########## ENERGY ##########
-world_growth_font_size_energy = 11.7
-general_stories_font_size_energy = 12.9
-content_font_size_energy = 8.1
+world_growth_font_size_energy = 12.7
+general_stories_font_size_energy = 8.6
+content_font_size_energy = 9.3
 
 
 ########## PLATINUM ##########
-world_growth_font_size_platinum = 11.3
-general_stories_font_size_platinum = 12.35
-content_font_size_platinum = 8.6
+world_growth_font_size_platinum = 12.2
+general_stories_font_size_platinum = 7.87
+content_font_size_platinum = 9
 
 
 

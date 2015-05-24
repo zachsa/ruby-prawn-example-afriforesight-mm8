@@ -15,12 +15,12 @@ class Report::EnergyReport < Report::Base
   
   def header
     #Set parameters for the heading
-    title_options = {:at => [0, 816], :size => 13, :style => :bold}
+    title_options = {:at => [0, 816], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     caption_options = {:at => [0, 795], size: 9.5}
-    date_text_options = {:at => [172, 816], :size => 8, :style => :bold}
+    date_text_options = {:at => [172, 816], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     
-    global_section_heading_options = {:at => [0, 773], :size => 13, :style => :bold}
-    general_section_heading_options = {:at => [@general_left, 773], :size => 13, :style => :bold}
+    global_section_heading_options = {:at => [0, 773], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
+    general_section_heading_options = {:at => [@general_left, 773], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     image_heading_options = {:at => [480, 832], :width => 100}
     header_line_y = 770
     
@@ -92,19 +92,25 @@ class Report::EnergyReport < Report::Base
 			for i in 0...arr.length do
 				wrd = arr[i]
 				if wrd.upcase == "SIDE" || wrd.upcase == "FLAT"
-					arr[i] = "<font name='symbols' size='10'><color rgb='000000'> : </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='000000'>: </color></font>"
 				elsif wrd.upcase == "DOWN"
-					arr[i] = "<font name='symbols' size='10'><color rgb='D45A2A'> = </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='D45A2A'>= </color></font>"
 				elsif wrd.upcase == "UP"
-					arr[i] = "<font name='symbols' size='10'><color rgb='74B743'> &lt; </color></font>"
+					arr[i] = "<font name='symbols' size='10'><color rgb='74B743'>&lt; </color></font>"
 				end
 			end
 			p = arr.join " "
       
-			
-			arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
-			name = "<font size='11'><b><i>#{arr[0]}</i></b></font>"
-      price = "<font size='8'><b>#{arr[1]}</b></font>"
+
+      if p['U3O8']
+        name = "<font size='11'><b><i>URANIUM</i></b></font>"
+        price = p.sub('URANIUM', '')
+        price = price = "<font size='8'><b>#{price}</b></font>"
+      else
+        arr = p.split(/(?=\p{Zs}(\p{Lu}\p{Ll}+.*))\p{Zs}/)
+		    name = "<font size='11'><b><i>#{arr[0]}</i></b></font>"
+        price = "<font size='8'><b>#{arr[1]}</b></font>"
+      end
       
       if comm == :baltic
         @prices[comm] = "#{name} #{price}"

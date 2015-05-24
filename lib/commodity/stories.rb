@@ -12,10 +12,10 @@ class StoriesJSON
 	def initialize
 		file = find_word_file
     
-    multi_line_break = /\\n\s+\\n/
-    single_line_break = "\\n"    
-    story_break = multi_line_break
-    #story_break = single_line_break
+    	multi_line_break = /\\n\s+\\n/
+    	single_line_break = "\\n"    
+    	#story_break = multi_line_break
+    	story_break = single_line_break
 		
 		begin
 			content = Docx::Document.open(file)
@@ -28,7 +28,7 @@ class StoriesJSON
 		end
 		
 		begin
-			content = Sanitize.fragment(content)
+			content = Sanitize.fragment(content, {:elements => ['strong']})
 		rescue
 			puts "Problem with Sanitize gem"
 			exit
@@ -42,7 +42,7 @@ class StoriesJSON
 		end
 
 		content = remove_empty_stories(content)
-    content = remove_double_spaces_and_newlines(content)
+    	content = remove_double_spaces_and_newlines(content)
 		content = split_stories_by_country(content)
 
 		@content_for_db = Marshal.load(Marshal.dump(content))
