@@ -78,12 +78,13 @@ Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, wor
 Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
 Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
-
+=begin
 puts "..Initializing database"
 db_connection = DB.new('localhost', 'root', 'pfnafn1', 'afriforesightresearch', commodity_news_db)
 puts "..Inserting into database"
 db_connection.add_to_mysql_db
 puts "Done"
+=end
 
 b = Time.now
 
