@@ -52,7 +52,7 @@ class Report::Base < Prawn::Document
   	@sub_content_heading_format = {:size => 8, :indent_paragraphs => 4, :kerning => true, :character_spacing => @character_spacing}
 
     #Prices Format
-    @prices_format = {:indent_paragraphs => 4, :inline_format => true, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
+    @prices_format = {:indent_paragraphs => 4, :inline_format => true, :style => :bold, :kerning => true, :character_spacing => 0}
     
     #Breaks formats
   	@main_heading_break = 2
