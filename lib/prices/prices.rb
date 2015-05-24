@@ -13,7 +13,7 @@ class Prices
 		@price_points = {
 
 			:baltic => "BALTIC DRY – Down 1.7% on Friday from Friday 17 April but Capesize rates up 7.0%",
-			:iron_ore => "IRON ORE Fri 1 May Qingdao, China close: $56.2/t UP 10.3% from Fri 17 Apr close",
+			:iron_ore => "IRON ORE Fri 1 May Qingdaoooo, China close: $56.2/t UP 10.3% from Fri 17 Apr close",
 			:manganese => "MANGANESE Fri 1 May close: $2.33/dmtu ($88.5/t) DOWN 3.7% from Fri 17 Apr close",
 			:chrome => "CHROME ORE Fri 1 May South Africa close: $159/t DOWN 0.9% from Fri 17 Apr close",
 			:gold => "GOLD Today’s afternoon price in Asia: $1 184/oz DOWN 1.7% from Mon morning 20 Apr",

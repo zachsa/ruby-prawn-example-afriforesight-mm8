@@ -84,7 +84,7 @@ class StoriesJSON
       new_content[section] = []
       
 			for i in 0...stories.length do
-				unless stories[i].length < 25
+				unless stories[i].length < 50
           new_content[section] << stories[i]
 				end
 			end
