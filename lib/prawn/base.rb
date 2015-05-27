@@ -87,7 +87,7 @@ class Report::Base < Prawn::Document
   
   
   def header_template(title_options, caption_options, date_text_options, global_section_heading_options, general_section_heading_options, image_heading_options, header_line_y)
-		draw_text("MONDAY MORNING MINING @ 8", title_options)
+		draw_text("MONDAY MORNING @ 8", title_options)
 		draw_text('This page updates you quickly on key developments relating to mining and extraction over the last week and this Monday afternoon in Asia', caption_options)
 		draw_text(@date_period, date_text_options)
 		
@@ -108,14 +108,14 @@ class Report::Base < Prawn::Document
   
   
   
-  def global_section_template(global_section_height, global_section_bottom_line, content_y, global_leading)
+  def global_section_template(global_section_height, global_section_bottom_line, content_y, global_leading, paragraph_break = 2.5)
 		
     #World Overview
 		bounding_box([0, content_y], :width => (bounds.right/2 - 3), :height => global_section_height) do
       move_down global_leading
       for i in 0...@world_growth.length do
         text(@world_growth[i], @world_overview_format)
-			  move_down 2.5
+			  move_down paragraph_break
       end
 		end
     

@@ -18,7 +18,7 @@ class Report::PlatinumReport < Report::Base
     #Set parameters for the heading
     title_options = {:at => [0, 819], :size => 14, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     caption_options = {:at => [0, 806], size: 8}
-    date_text_options = {:at => [182, 819], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
+    date_text_options = {:at => [142, 819], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     
     global_section_heading_options = {:at => [0, 781], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     general_section_heading_options = {:at => [@general_left, 781], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
@@ -35,7 +35,7 @@ class Report::PlatinumReport < Report::Base
     global_section_bottom_line = 512
     content_y = 775
     
-    global_section = self.extend(Report).global_section_template(global_section_height, global_section_bottom_line, content_y, 3)
+    global_section = self.extend(Report).global_section_template(global_section_height, global_section_bottom_line, content_y, 3, 5)
   end
   
   
@@ -59,7 +59,8 @@ class Report::PlatinumReport < Report::Base
       move_down @after_price_break
 			draw_stories(@section_break, @stories_format, @pgm_stories)
       
-      
+      move_down 10
+
 			#Chrome ore
       position = check_position(position, '3')
 			col = 2 if position['3'] - position['2'] > 0 - price_point_size	
@@ -67,6 +68,8 @@ class Report::PlatinumReport < Report::Base
       move_down @after_price_break
 			draw_stories(@section_break, @stories_format, @chrome_ore_stories)
       
+      move_down 10
+
 			#Copper
 			position = check_position(position, '4')
 			col = 2 if position['4'] - position['3'] > 0 - price_point_size			

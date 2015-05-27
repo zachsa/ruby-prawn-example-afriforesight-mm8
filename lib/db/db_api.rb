@@ -24,8 +24,9 @@ class DB
     			if commodity == "Oil gas"
     				commodity = "Oil & Gas"
     			end
-		
-    			date = Date.strptime("2014-02-03") 
+          
+          #Year-month-day		
+    			date = Date.strptime("2015-05-25") 
 		
     			country = c[0]
     			story = c[1]

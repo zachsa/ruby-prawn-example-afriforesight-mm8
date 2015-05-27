@@ -17,7 +17,7 @@ class Report::EnergyReport < Report::Base
     #Set parameters for the heading
     title_options = {:at => [0, 816], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     caption_options = {:at => [0, 795], size: 9.5}
-    date_text_options = {:at => [172, 816], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
+    date_text_options = {:at => [130, 816], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     
     global_section_heading_options = {:at => [0, 773], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     general_section_heading_options = {:at => [@general_left, 773], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
@@ -32,7 +32,7 @@ class Report::EnergyReport < Report::Base
     global_section_bottom_line = 480
     content_y = 767
     
-    global_section = global_section_template(global_section_height, global_section_bottom_line, content_y, 3)
+    global_section = global_section_template(global_section_height, global_section_bottom_line, content_y, 3, 5)
   end
   
   def main_content
@@ -63,6 +63,8 @@ class Report::EnergyReport < Report::Base
       draw_price_point(col, @prices, :coal, price_point_size, vertical_padding)			
 			move_down @after_price_break
       draw_stories(@section_break, @stories_format, @coal_stories)
+
+      move_down 10
 
 			
       #Uranium	

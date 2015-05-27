@@ -28,7 +28,7 @@ class StoriesJSON
 		end
 		
 		begin
-			content = Sanitize.fragment(content, {:elements => ['strong']})
+			content = Sanitize.fragment(content)#, {:elements => ['strong']})
 		rescue
 			puts "Problem with Sanitize gem"
 			exit
@@ -43,13 +43,15 @@ class StoriesJSON
 
 		content = remove_empty_stories(content)
     	content = remove_double_spaces_and_newlines(content)
+
+    	content_for_db = Marshal.load(Marshal.dump(content))
+
 		content = split_stories_by_country(content)
 
-		@content_for_db = Marshal.load(Marshal.dump(content))
+		@content_for_db = split_stories_by_country(content_for_db, true)
 
 		content = make_country_bold(content)		
 		@content = join_formatted_data(content)    
-    
 	end
 	
 
@@ -94,7 +96,7 @@ class StoriesJSON
 	end
 
 
-	def split_stories_by_country(content)
+	def split_stories_by_country(content, for_db = false)
 		#content needs to be clean data at this point
 		
 		#Function splits between country and story to allow for further formatting
@@ -129,6 +131,11 @@ class StoriesJSON
 					puts ('Formatting error: check source DocX file. Each story needs a country entry')
 					puts 'Exiting....'
 					exit
+				end
+
+				if for_db
+					content[comm][i][0].sub!(/\(.*\)/, '')
+					content[comm][i][0].rstrip!
 				end
 			end
 		end

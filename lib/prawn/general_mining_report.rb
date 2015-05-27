@@ -17,7 +17,7 @@ class Report::GeneralReport < Report::Base
     #Set parameters for the heading
     title_options = {:at => [0, 819], :size => 13, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     caption_options = {:at => [0, 809], size: 8, :kerning => true, :character_spacing => 0.1}
-    date_text_options = {:at => [172, 819], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
+    date_text_options = {:at => [130, 819], :size => 8, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     
     global_section_heading_options = {:at => [0, 793], :size => 10, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
     general_section_heading_options = {:at => [@general_left, 793], :size => 10, :style => :bold, :kerning => true, :character_spacing => @character_spacing}
@@ -129,7 +129,8 @@ class Report::GeneralReport < Report::Base
       		move_down @after_price_break
 			draw_stories(@section_break, @stories_format, @nickel_stories)
 			
-      
+      		move_down 5
+
       		#ENERGY COMMODITIES HEADING
 			position = check_position(position, '10')
 			col = 2 if position['10'] - position['9'] > 0		
@@ -139,7 +140,9 @@ class Report::GeneralReport < Report::Base
       		draw_price_point(col, @prices, :coal, price_point_size, vertical_padding)
       		move_down @after_price_break		
 			draw_stories(@section_break, @stories_format, @coal_stories)
-      
+      		
+      		move_down 5
+
       		#Oil & Gas Heading
 			position['11'] = self.cursor
 			col = 2 if position['11'] - position['10'] > 0
@@ -155,6 +158,8 @@ class Report::GeneralReport < Report::Base
       		move_down @after_price_break
       		draw_stories(@section_break, @stories_format, @oil_gas_stories)
 			
+      		move_down 5
+
       		#Uranium	
 			position = check_position(position, '13')
 			col = 2 if position['13'] - position['12'] > 0
