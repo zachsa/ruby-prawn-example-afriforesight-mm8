@@ -54,8 +54,6 @@ class Report::EnergyReport < Report::Base
       move_down @after_price_break
       draw_stories(@section_break, @stories_format, @oil_gas_stories)
       
-     
- 
 			
       #Coal	
 			position = check_position(position, '3')
@@ -63,8 +61,6 @@ class Report::EnergyReport < Report::Base
       draw_price_point(col, @prices, :coal, price_point_size, vertical_padding)			
 			move_down @after_price_break
       draw_stories(@section_break, @stories_format, @coal_stories)
-
-      move_down 10
 
 			
       #Uranium	

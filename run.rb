@@ -59,34 +59,34 @@ date_period = "7 DAY PERIOD OF 18 - 25 May 2015"
 
 
 ########## GENERAL Report ##########
-world_growth_font_size_general = 8.7
-general_stories_font_size_general = 8
-content_font_size_general = 6.25
+world_growth_font_size_general = 7.8
+general_stories_font_size_general = 6.6
+content_font_size_general = 6.6
 
 
 ########## ENERGY ##########
-world_growth_font_size_energy = 14.7
-general_stories_font_size_energy = 13.2
-content_font_size_energy = 8.89
+world_growth_font_size_energy = 11.8
+general_stories_font_size_energy = 10.5
+content_font_size_energy = 8.7
 
 
 ########## PLATINUM ##########
-world_growth_font_size_platinum = 14
-general_stories_font_size_platinum = 12.5
-content_font_size_platinum = 9.9
+world_growth_font_size_platinum = 11
+general_stories_font_size_platinum = 10
+content_font_size_platinum = 12.6
 
 
 
-#Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
-#Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
-#Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
+Report::GeneralReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_general, general_stories_font_size_general, content_font_size_general)
+Report::EnergyReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_energy, general_stories_font_size_energy, content_font_size_energy)
+Report::PlatinumReport.new(world_growth, commodity_news, prices, date_period, world_growth_font_size_platinum, general_stories_font_size_platinum, content_font_size_platinum)
 
 
-puts "..Initializing database"
-db_connection = DB.new('localhost', 'root', 'pfnafn1', 'afriforesightresearch', commodity_news_db)
-puts "..Inserting into database"
-db_connection.add_to_mysql_db
-puts "Done"
+#puts "..Initializing database"
+#db_connection = DB.new('localhost', 'root', 'pfnafn1', 'afriforesightresearch', commodity_news_db)
+#puts "..Inserting into database"
+#db_connection.add_to_mysql_db
+#puts "Done"
 
 
 b = Time.now

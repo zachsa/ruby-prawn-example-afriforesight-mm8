@@ -59,7 +59,6 @@ class Report::PlatinumReport < Report::Base
       move_down @after_price_break
 			draw_stories(@section_break, @stories_format, @pgm_stories)
       
-      move_down 10
 
 			#Chrome ore
       position = check_position(position, '3')
@@ -68,7 +67,6 @@ class Report::PlatinumReport < Report::Base
       move_down @after_price_break
 			draw_stories(@section_break, @stories_format, @chrome_ore_stories)
       
-      move_down 10
 
 			#Copper
 			position = check_position(position, '4')
